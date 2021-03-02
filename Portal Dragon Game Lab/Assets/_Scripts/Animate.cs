@@ -23,6 +23,7 @@ public class Animate : MonoBehaviour
     [SerializeField]
     private float waveFrequencyY = 1f;
 
+    [SerializeField]
     private bool ready = false;
 
     public GameObject target;

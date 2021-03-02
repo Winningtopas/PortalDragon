@@ -19,3 +19,7 @@ teleport using the dot product of the player and the portal
 
 Sebestian Lague:
 
+deciding the camera location and rotation from the destination portal based on the position of the camera of the player
+create viewtexture in a portal script
+cut out the portal part from the camera view using screen space position instead of the UV
+increase performance by checking if the screen of the linked portal is seen from the player camera

@@ -1,0 +1,21 @@
+wat wil ik dat er gebeurt als de portal een andere portal rendert
+moet er vanuit meerdere angels correct uitzien
+verschillende technieken bestuderen
+
+
+
+Brackeys:
+
+make plane
+make material
+render texture
+assign the material a shader
+fix the shader angles
+adjust the camera screen size on startup
+
+make collider
+make portalteleporter script
+teleport using the dot product of the player and the portal
+
+Sebestian Lague:
+

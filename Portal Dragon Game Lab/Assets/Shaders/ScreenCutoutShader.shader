@@ -8,11 +8,14 @@ Shader "Unlit/ScreenCutoutShader"
 	}
 	SubShader
 	{
-		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" } 
+		// queues:
+		//Background is 1000, Geometry is 2000, AlphaTest is 2450, Transparent is 3000 and Overlay is 4000
+
 		Lighting Off
-		Cull Back
-		ZWrite On
-		ZTest Less
+		Cull Back // Don’t render polygons that are facing away from the viewer
+		ZWrite On // Controls whether pixels from this object are written to the depth buffer. If you’re drawing solid objects, leave this on.
+		ZTest Less // Determines how you want it to check the z value of your object against the one currently in the z-buffer,
 		
 		Fog{ Mode Off }
 

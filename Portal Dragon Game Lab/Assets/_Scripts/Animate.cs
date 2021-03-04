@@ -81,7 +81,6 @@ public class Animate : MonoBehaviour
         //hips
         for (int i = counter; i < children + counter; i++)
         {
-            Debug.Log(i);
             if (currentChildTransform.childCount > 0)
             {
                 if (currentChildTransform.GetChild(0).gameObject.tag == "Dragonbody" && i != counter)
@@ -158,6 +157,6 @@ public class Animate : MonoBehaviour
     {
         if(ready)
             AnimateParts();
-        RotateParts();
+        //RotateParts();
     }
 }

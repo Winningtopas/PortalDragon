@@ -25,7 +25,6 @@ public class PortalCamera : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        //GetComponent<Camera>().projectionMatrix = playerCamera.GetComponent<Camera>().projectionMatrix;
 
         relativePos = otherPortal.InverseTransformPoint(playerCamera.transform.position);
         relativePos = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativePos;
@@ -36,17 +35,7 @@ public class PortalCamera : MonoBehaviour {
         relativeRot = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativeRot;
         transform.rotation = portal.transform.rotation * relativeRot;
 
-        //transform.rotation = startRotation * playerCamera.transform.rotation;
-        //Vector3 tempPos = startPosition + (otherPortal.transform.position - playerCamera.transform.position);
-        //transform.position = new Vector3(tempPos.x, startPosition.y, tempPos.z);
-
-        //Vector3 playerOffsetFromPortal = playerCamera.transform.position - otherPortal.position;
-        //transform.position = portal.position + playerOffsetFromPortal;
-
-        //float angularDifferenceBetweenPortalRotations = Quaternion.Angle(portal.rotation, otherPortal.rotation);
-
-        //Quaternion portalRotationalDifference = Quaternion.AngleAxis(-angularDifferenceBetweenPortalRotations, Vector3.up);
-        //Vector3 newCameraDirection = portalRotationalDifference * playerCamera.forward;
-        //transform.rotation = Quaternion.LookRotation(newCameraDirection, Vector3.up);
+        //adjusting the near clipping plane
+        GetComponent<Camera>().nearClipPlane = Vector3.Distance(transform.position, portal.position);
     }
 }

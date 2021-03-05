@@ -17,7 +17,6 @@ public class ShootPortal : MonoBehaviour
         var z = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).z;
 
         Quaternion rotation = Quaternion.Euler(x, y, z);
-        Debug.Log(rotation);
         currentPortalSpawner = Instantiate(portalSpawner, position, rotation);
         currentPortalSpawner.name = "PortalSpawner";
     }

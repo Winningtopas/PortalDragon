@@ -10,8 +10,12 @@ public class PortalTextureSetup : MonoBehaviour {
 	public Material cameraMatA;
 	public Material cameraMatB;
 
-	// Use this for initialization
-	void Start () {
+    public List<GameObject> portals = new List<GameObject>();
+    public List<GameObject> cameras = new List<GameObject>();
+    public List<Material> materials = new List<Material>();
+
+    // Use this for initialization
+    void Start () {
 		if (cameraA.targetTexture != null)
 		{
 			cameraA.targetTexture.Release();
@@ -27,4 +31,44 @@ public class PortalTextureSetup : MonoBehaviour {
 		cameraMatB.mainTexture = cameraB.targetTexture;
 	}
 	
+    public void MakeNewRenderTexture(GameObject cameraGameObject)
+    {
+        cameras.Add(cameraGameObject);
+
+        Camera camera = cameraGameObject.GetComponent<Camera>();
+
+        if (camera.targetTexture != null)
+        {
+            camera.targetTexture.Release();
+        }
+        camera.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
+
+        //create a new material
+        Material material = new Material(Shader.Find("Unlit/ScreenCutoutShader"));
+        material.name = "NewPortalMat" + materials.Count;
+
+        material.mainTexture = camera.targetTexture;
+        materials.Add(material);
+    }
+
+    public void AssignMaterialToPortal(GameObject portal, int i)
+    {
+        portal.GetComponent<Renderer>().material = materials[i];
+        portals.Add(portal);
+    }
+
+    public void AssignPortalsToCamera()
+    {
+        for(int i = 0; i < cameras.Count; i++)
+        {
+            if (i % 2 == 0) // if i is even
+            {
+                cameras[i].GetComponent<PortalCamera>().AssignPortals(portals[i], portals[i + 1]);
+            }
+            else
+            {
+                cameras[i].GetComponent<PortalCamera>().AssignPortals(portals[i], portals[i - 1]);
+            }
+        }
+    }
 }

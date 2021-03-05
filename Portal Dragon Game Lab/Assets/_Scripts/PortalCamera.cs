@@ -38,4 +38,12 @@ public class PortalCamera : MonoBehaviour {
         //adjusting the near clipping plane
         GetComponent<Camera>().nearClipPlane = Vector3.Distance(transform.position, portal.position);
     }
+
+    public void AssignPortals(GameObject portalGameObject, GameObject otherPortalGameObject)
+    {
+        playerCamera = GameObject.Find("Main Camera");
+        portal = portalGameObject.transform;
+        otherPortal = otherPortalGameObject.transform;
+    }
+
 }

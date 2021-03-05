@@ -7,8 +7,19 @@ public class ShootPortal : MonoBehaviour
     public GameObject portalSpawner;
     private GameObject currentPortalSpawner;
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private bool shoot = false;
+
+    private void Update()
+    {
+        if (shoot)
+        {
+            Shoot();
+            shoot = false;
+        }
+    }
+
+    void Shoot()
     {
         Vector3 position = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
 

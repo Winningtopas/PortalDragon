@@ -4,32 +4,9 @@ using UnityEngine;
 
 public class PortalTextureSetup : MonoBehaviour {
 
-	public Camera cameraA;
-	public Camera cameraB;
-
-	public Material cameraMatA;
-	public Material cameraMatB;
-
     public List<GameObject> portals = new List<GameObject>();
     public List<GameObject> cameras = new List<GameObject>();
     public List<Material> materials = new List<Material>();
-
-    // Use this for initialization
-    void Start () {
-		if (cameraA.targetTexture != null)
-		{
-			cameraA.targetTexture.Release();
-		}
-		cameraA.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
-		cameraMatA.mainTexture = cameraA.targetTexture;
-
-		if (cameraB.targetTexture != null)
-		{
-			cameraB.targetTexture.Release();
-		}
-		cameraB.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
-		cameraMatB.mainTexture = cameraB.targetTexture;
-	}
 	
     public void MakeNewRenderTexture(GameObject cameraGameObject)
     {
@@ -53,7 +30,7 @@ public class PortalTextureSetup : MonoBehaviour {
 
     public void AssignMaterialToPortal(GameObject portal, int i)
     {
-        portal.GetComponent<Renderer>().material = materials[i];
+        portal.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = materials[i];
         portals.Add(portal);
     }
 

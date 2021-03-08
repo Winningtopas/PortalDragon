@@ -63,7 +63,11 @@ public class Projectile : MonoBehaviour
 
         for (int i = 0; i < portals.Length; i++)
         {
+            if(i == 0)
             portals[i] = Instantiate(portalObject, new Vector3(transform.position.x + 10 * i, transform.position.y, transform.position.z), rotation);
+            else
+                portals[i] = Instantiate(portalObject, new Vector3(transform.position.x + 10 * i, transform.position.y, transform.position.z - 20), rotation);
+
             //portals[i].name = "Portal " + i;
             GameMaster.GetComponent<PortalTextureSetup>().AssignMaterialToPortal(portals[i], i);
         }

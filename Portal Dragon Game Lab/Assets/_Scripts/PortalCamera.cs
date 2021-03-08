@@ -14,9 +14,9 @@ public class PortalCamera : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        relativePos = otherPortal.InverseTransformPoint(playerCamera.transform.position);
+        relativePos = portal.InverseTransformPoint(playerCamera.transform.position);
         relativePos = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativePos;
-        transform.position = portal.transform.TransformPoint(relativePos);
+        transform.position = otherPortal.transform.TransformPoint(relativePos);
 
         Quaternion relativeRot = Quaternion.Inverse(otherPortal.rotation) * playerCamera.transform.rotation;
         relativeRot = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativeRot;

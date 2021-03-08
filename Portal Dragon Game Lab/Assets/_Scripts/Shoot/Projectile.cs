@@ -51,7 +51,7 @@ public class Projectile : MonoBehaviour
         for (int i = 0; i < portals.Length; i++)
         {
             cameras[i] = Instantiate(cameraObject, new Vector3(transform.position.x + 10 * i, transform.position.y, transform.position.z), Quaternion.identity);
-            cameras[i].name = "Camera " + i;
+            //cameras[i].name = "Camera " + i;
             GameMaster.GetComponent<PortalTextureSetup>().MakeNewRenderTexture(cameras[i]);
         }
 
@@ -64,7 +64,7 @@ public class Projectile : MonoBehaviour
         for (int i = 0; i < portals.Length; i++)
         {
             portals[i] = Instantiate(portalObject, new Vector3(transform.position.x + 10 * i, transform.position.y, transform.position.z), rotation);
-            portals[i].name = "Portal " + i;
+            //portals[i].name = "Portal " + i;
             GameMaster.GetComponent<PortalTextureSetup>().AssignMaterialToPortal(portals[i], i);
         }
 

@@ -8,8 +8,11 @@ public class PortalTextureSetup : MonoBehaviour {
     public List<GameObject> cameras = new List<GameObject>();
     public List<Material> materials = new List<Material>();
 	
+    private int currentPortal = 0;
+
     public void MakeNewRenderTexture(GameObject cameraGameObject)
     {
+        cameraGameObject.name = "Camera " + cameras.Count;
         cameras.Add(cameraGameObject);
 
         Camera camera = cameraGameObject.GetComponent<Camera>();
@@ -30,8 +33,10 @@ public class PortalTextureSetup : MonoBehaviour {
 
     public void AssignMaterialToPortal(GameObject portal, int i)
     {
-        portal.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = materials[i];
+        portal.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = materials[currentPortal];
+        portal.name = "Portal " + portals.Count;
         portals.Add(portal);
+        currentPortal++;
     }
 
     public void AssignPortalsToCamera()

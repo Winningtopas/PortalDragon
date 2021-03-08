@@ -18,9 +18,9 @@ public class PortalCamera : MonoBehaviour {
         relativePos = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativePos;
         transform.position = otherPortal.transform.TransformPoint(relativePos);
 
-        Quaternion relativeRot = Quaternion.Inverse(otherPortal.rotation) * playerCamera.transform.rotation;
+        Quaternion relativeRot = Quaternion.Inverse(portal.rotation) * playerCamera.transform.rotation;
         relativeRot = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativeRot;
-        transform.rotation = portal.transform.rotation * relativeRot;
+        transform.rotation = otherPortal.transform.rotation * relativeRot;
 
         //adjusting the near clipping plane
         GetComponent<Camera>().nearClipPlane = Vector3.Distance(transform.position, otherPortal.position);

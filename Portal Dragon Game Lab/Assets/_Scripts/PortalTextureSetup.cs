@@ -46,10 +46,14 @@ public class PortalTextureSetup : MonoBehaviour {
             if (i % 2 == 0) // if i is even
             {
                 cameras[i].GetComponent<PortalCamera>().AssignPortals(portals[i], portals[i + 1]);
+                portals[i].GetComponent<Portal>().otherPortal = portals[i + 1];
+                portals[i].GetComponent<Portal>().portalCamera = cameras[i + 1];
             }
             else
             {
                 cameras[i].GetComponent<PortalCamera>().AssignPortals(portals[i], portals[i - 1]);
+                portals[i].GetComponent<Portal>().otherPortal = portals[i - 1];
+                portals[i].GetComponent<Portal>().portalCamera = cameras[i - 1];
             }
         }
     }

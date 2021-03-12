@@ -10,6 +10,15 @@ public class ShootPortal : MonoBehaviour
     [SerializeField]
     private bool shoot = false;
 
+    private void Start()
+    {
+        if (gameObject.transform.root.gameObject.name.Contains(" Clones")) // if the gameobject is a clone for the purpose of portal traveling
+        {
+            shoot = false;
+            Destroy(GetComponent<ShootPortal>());
+        }
+    }
+
     private void Update()
     {
         if (shoot)

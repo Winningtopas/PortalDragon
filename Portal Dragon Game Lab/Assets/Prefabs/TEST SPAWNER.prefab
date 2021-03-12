@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8225dbf645a224e4cbac9d9769b19e64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 75
+  speed: 125
   portalObject: {fileID: 3959302167147445860, guid: 592cbda30824f3c48bbb364659f4d8c6, type: 3}
   cameraObject: {fileID: 472372046429055984, guid: 8b90fe2ddaab5af4fabad00cd80b40d9, type: 3}
   lifeTime: 1.5

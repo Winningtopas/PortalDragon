@@ -18,7 +18,6 @@ public class PortalableObject : MonoBehaviour
     private new Rigidbody rigidbody;
     protected new Collider collider;
 
-    [SerializeField]
     private List<GameObject> allChildren = new List<GameObject>();
     public int childCount = 0;
 
@@ -26,10 +25,14 @@ public class PortalableObject : MonoBehaviour
 
     private GameObject cloneObjectContainer;
 
+    public GameObject cloneGameObject;
+    private GameObject ownCameraObject;
+    private GameObject cloneCameraObject;
+
+    private bool fullPortalMovement = false;
+
     protected virtual void Awake()
     {
-        //FindChildren(this.gameObject);
-
         //MakeCloneChildren();
         //SetChildren(cloneObject);
         //cloneObject.SetActive(false);
@@ -52,21 +55,54 @@ public class PortalableObject : MonoBehaviour
     private void Start()
     {
         cloneObjectContainer = GameObject.Find("Portable Object Clones");
+        FindChildren(this.gameObject);
 
         if (gameObject.name.Contains(" clone"))
         {
-            transform.parent = cloneObjectContainer.transform;
-            Destroy(GetComponent<PortalableObject>());
-            Destroy(GetComponent<Collider>());
-            Destroy(GetComponent<AudioListener>());
-            gameObject.SetActive(false);
+            AssignCloneGameObject();
         }
         else
         {
             GetComponent<Collider>().enabled = true;
             cloneObject = Instantiate(gameObject);
             cloneObject.name = gameObject.name + " clone";
+
+            for (int i = 0; i < allChildren.Count; i++)
+            {
+                Destroy(allChildren[i].GetComponent<PortalableObject>());
+                Destroy(allChildren[i].GetComponent<Collider>());
+                Destroy(allChildren[i].GetComponent<AudioListener>());
+                if (allChildren[i].GetComponent<Camera>() != null)
+                {
+                    ownCameraObject = allChildren[i];
+                    //Destroy(allChildren[i].gameObject);
+                }
+            }
         }
+    }
+
+    void AssignCloneGameObject()
+    {
+        transform.parent = cloneObjectContainer.transform;
+
+        string originalName = gameObject.name.Replace(" clone", "");
+        GameObject originalGameObject = GameObject.Find(originalName);
+        originalGameObject.GetComponent<PortalableObject>().cloneGameObject = gameObject;
+
+        for (int i = 0; i < allChildren.Count; i++)
+        {
+            Destroy(allChildren[i].GetComponent<PortalableObject>());
+            Destroy(allChildren[i].GetComponent<Collider>());
+            if (allChildren[i].GetComponent<Camera>() != null)
+            {
+                originalGameObject.GetComponent<PortalableObject>().cloneCameraObject = allChildren[i];
+            }
+        }
+
+        Destroy(GetComponent<PortalableObject>());
+        Destroy(GetComponent<Collider>());
+        Destroy(GetComponent<AudioListener>());
+        gameObject.SetActive(false);
     }
 
     void FindChildren(GameObject parent)
@@ -150,6 +186,8 @@ public class PortalableObject : MonoBehaviour
 
     public void SetIsInPortal(Portal inPortal, Portal outPortal, Collider wallCollider)
     {
+        fullPortalMovement = !fullPortalMovement; //otherwise the camera stutters when transitioning
+
         this.inPortal = inPortal;
         this.outPortal = outPortal;
 
@@ -157,11 +195,21 @@ public class PortalableObject : MonoBehaviour
 
         cloneObject.SetActive(true);
 
+        if (fullPortalMovement)
+        {
+            cloneCameraObject.SetActive(true);
+            ownCameraObject.SetActive(false);
+        }
+
         ++inPortalCount;
     }
 
     public virtual void Warp()
     {
+        ownCameraObject.SetActive(true);
+        cloneCameraObject.SetActive(false);
+
+
         var inTransform = inPortal.transform;
         var outTransform = outPortal.transform;
 
@@ -188,12 +236,16 @@ public class PortalableObject : MonoBehaviour
 
     public void ExitPortal(Collider wallCollider)
     {
+        ownCameraObject.SetActive(false);
+        cloneCameraObject.SetActive(true);
         Physics.IgnoreCollision(collider, wallCollider, false);
         --inPortalCount;
 
         if (inPortalCount == 0)
         {
             cloneObject.SetActive(false);
+            cloneCameraObject.SetActive(false);
+            ownCameraObject.SetActive(true);
         }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootPortal : MonoBehaviour
+public class ShootPortalSpawner : MonoBehaviour
 {
     public GameObject portalSpawner;
     private GameObject currentPortalSpawner;
@@ -15,7 +15,7 @@ public class ShootPortal : MonoBehaviour
         if (gameObject.transform.root.gameObject.name.Contains(" Clones")) // if the gameobject is a clone for the purpose of portal traveling
         {
             shoot = false;
-            Destroy(GetComponent<ShootPortal>());
+            Destroy(GetComponent<ShootPortalSpawner>());
         }
     }
 
@@ -30,7 +30,7 @@ public class ShootPortal : MonoBehaviour
 
     void Shoot()
     {
-        Vector3 position = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
+        Vector3 position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
         var x = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).x;
         var y = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).y;

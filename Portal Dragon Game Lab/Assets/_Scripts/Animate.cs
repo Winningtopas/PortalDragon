@@ -10,11 +10,11 @@ public class Animate : MonoBehaviour
     private Transform[] partTransforms;
 
     [SerializeField]
-    private float movementSpeedX = 2f;
+    private float movementSpeedZ = 2f;
     [SerializeField]
-    private float waveHeightX = 0.9f;
+    private float waveHeightZ = 0.9f;
     [SerializeField]
-    private float waveFrequencyX = 1f;
+    private float waveFrequencyZ = 1f;
 
     [SerializeField]
     private float movementSpeedY = 2f;
@@ -59,7 +59,8 @@ public class Animate : MonoBehaviour
                 {
                     currentChildTransform = currentChild.transform;
                     partTransforms[i] = currentChildTransform;
-                    nonAnimatedPositions[i] = partTransforms[i].position;
+                    //nonAnimatedPositions[i] = partTransforms[i].position;
+                    nonAnimatedPositions[i] = partTransforms[i].localPosition;
                     children++;
                     counter++;
                 }
@@ -88,7 +89,8 @@ public class Animate : MonoBehaviour
                     currentChild = currentChildTransform.GetChild(0).gameObject;
                     currentChildTransform = currentChild.transform;
                     partTransforms[i] = currentChildTransform;
-                    nonAnimatedPositions[i] = partTransforms[i].position;
+                   // nonAnimatedPositions[i] = partTransforms[i].position;
+                    nonAnimatedPositions[i] = partTransforms[i].localPosition;
                     children++;
                 }
                 else if (currentChildTransform.childCount > 1)
@@ -98,7 +100,8 @@ public class Animate : MonoBehaviour
                         currentChild = currentChildTransform.GetChild(1).gameObject;
                         currentChildTransform = currentChild.transform;
                         partTransforms[i] = currentChildTransform;
-                        nonAnimatedPositions[i] = partTransforms[i].position;
+                        //nonAnimatedPositions[i] = partTransforms[i].position;
+                        nonAnimatedPositions[i] = partTransforms[i].localPosition;
                         children++;
                     }
                 }
@@ -123,10 +126,12 @@ public class Animate : MonoBehaviour
             Vector3 pos = partTransforms[i].position;
             
             //float offset = waveHeight * Mathf.Sin((Time.time * movementSpeed) + (i * waveFrequency));
-            float offsetX = waveHeightX * Mathf.Sin(Time.time * movementSpeedX + (i * waveFrequencyX));
+            float offsetZ = waveHeightZ * Mathf.Sin(Time.time * movementSpeedZ + (i * waveFrequencyZ));
             float offsetY = waveHeightY * Mathf.Sin(Time.time * movementSpeedY + (i * waveFrequencyY));
 
-            partTransforms[i].position = new Vector3(-offsetX + nonAnimatedPositions[i].x, offsetY + nonAnimatedPositions[i].y, pos.z);
+            //partTransforms[i].localPosition = new Vector3(-offsetX + nonAnimatedPositions[i].x, offsetY + nonAnimatedPositions[i].y, pos.z);
+            partTransforms[i].localPosition = new Vector3(nonAnimatedPositions[i].x, offsetY + nonAnimatedPositions[0].y, -offsetZ + nonAnimatedPositions[0].z);
+
         }
     }
 
@@ -144,9 +149,6 @@ public class Animate : MonoBehaviour
         // Draw a ray pointing at our target in
         Debug.DrawRay(partTransforms[partTransforms.Length - 1].transform.position, newDirection * 10, Color.red);
         Debug.DrawRay(partTransforms[partTransforms.Length - 1].transform.position, new Vector3(-newDirection.x,newDirection.y,newDirection.z) * 10, Color.yellow);
-
-        Vector3 good = new Vector3(-newDirection.x, newDirection.y, newDirection.z);
-
 
         // Calculate a rotation a step closer to the target and applies rotation to this object
         partTransforms[partTransforms.Length - 1].transform.rotation = Quaternion.LookRotation(newDirection);

@@ -6,8 +6,8 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637492526845751892
-    m_Hash: 4265784158
+      ticks: 637515018444903231
+    m_Hash: 2979073400
   m_LockFileStatus:
     m_FilePath: D:/Documents/School/Jaar 3/Game Lab/Portal Dragon/Portal Dragon Game
       Lab/Packages/packages-lock.json
@@ -15,8 +15,8 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637492526859714472
-    m_Hash: 1722432717
+      ticks: 637515018461080228
+    m_Hash: 3387186631
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -163,6 +163,7 @@ m_PackageAssets:
         - 3.0.2
         - 3.0.3
         - 3.0.4
+        - 3.0.5
         compatible:
         - 1.0.2
         - 1.0.6
@@ -186,6 +187,7 @@ m_PackageAssets:
         - 3.0.2
         - 3.0.3
         - 3.0.4
+        - 3.0.5
         verified: 2.0.7
       dependencies:
       - name: com.unity.test-framework
@@ -362,113 +364,6 @@ m_PackageAssets:
         url: https://github.cds.internal.unity3d.com/unity/com.unity.ide.vscode.git
         revision: b5ec9b38109e52b1b26597d521e4df75e042ebb9
         path: 
-    - packageId: com.unity.render-pipelines.universal@10.2.2
-      testable: 0
-      isDirectDependency: 1
-      version: 10.2.2
-      source: 1
-      resolvedPath: D:\Documents\School\Jaar 3\Game Lab\Portal Dragon\Portal Dragon
-        Game Lab\Library\PackageCache\com.unity.render-pipelines.universal@10.2.2
-      assetPath: Packages/com.unity.render-pipelines.universal
-      name: com.unity.render-pipelines.universal
-      displayName: Universal RP
-      author:
-        name: 
-        email: 
-        url: 
-      category: 
-      type: 
-      description: The Universal Render Pipeline (URP) is a prebuilt Scriptable Render
-        Pipeline, made by Unity. URP provides artist-friendly workflows that let
-        you quickly and easily create optimized graphics across a range of platforms,
-        from mobile to high-end consoles and PCs.
-      status: 4
-      errors: []
-      versions:
-        all:
-        - 7.0.0
-        - 7.0.1
-        - 7.1.1
-        - 7.1.2
-        - 7.1.5
-        - 7.1.6
-        - 7.1.7
-        - 7.1.8
-        - 7.2.0
-        - 7.2.1
-        - 7.3.1
-        - 7.4.1
-        - 7.4.2
-        - 7.4.3
-        - 7.5.1
-        - 7.5.2
-        - 7.5.3
-        - 8.0.1
-        - 8.1.0
-        - 8.2.0
-        - 8.3.1
-        - 9.0.0-preview.14
-        - 9.0.0-preview.35
-        - 9.0.0-preview.55
-        - 9.0.0-preview.72
-        - 10.0.0-preview.26
-        - 10.1.0
-        - 10.2.0
-        - 10.2.1
-        - 10.2.2
-        - 10.3.1
-        compatible:
-        - 10.2.2
-        verified: 10.2.2
-      dependencies:
-      - name: com.unity.mathematics
-        version: 1.1.0
-      - name: com.unity.render-pipelines.core
-        version: 10.2.2
-      - name: com.unity.shadergraph
-        version: 10.2.2
-      resolvedDependencies:
-      - name: com.unity.mathematics
-        version: 1.1.0
-      - name: com.unity.render-pipelines.core
-        version: 10.2.2
-      - name: com.unity.ugui
-        version: 1.0.0
-      - name: com.unity.modules.ui
-        version: 1.0.0
-      - name: com.unity.modules.imgui
-        version: 1.0.0
-      - name: com.unity.shadergraph
-        version: 10.2.2
-      - name: com.unity.searcher
-        version: 4.3.1
-      keywords:
-      - graphics
-      - performance
-      - rendering
-      - mobile
-      - render
-      - pipeline
-      registry:
-        id: main
-        name: 
-        url: https://packages.unity.com
-        scopes: []
-        isDefault: 1
-        capabilities: 7
-      hasRegistry: 1
-      hideInEditor: 1
-      entitlements:
-        isAllowed: 1
-      isAssetStorePackage: 0
-      datePublishedTicks: 637430486890000000
-      documentationUrl: 
-      hasRepository: 1
-      repository:
-        type: git
-        url: git+https://github.com/Unity-Technologies/Graphics.git
-        revision: a197e35ba4e93349ccbb4fddd4f3f80ba7b1c113
-        path: 
     - packageId: com.unity.test-framework@1.1.20
       testable: 0
       isDirectDependency: 1
@@ -517,10 +412,12 @@ m_PackageAssets:
         - 1.1.19
         - 1.1.20
         - 1.1.22
+        - 1.1.24
         compatible:
         - 1.1.20
         - 1.1.22
-        verified: 1.1.22
+        - 1.1.24
+        verified: 1.1.24
       dependencies:
       - name: com.unity.ext.nunit
         version: 1.0.6
@@ -634,6 +531,7 @@ m_PackageAssets:
         - 1.5.0
         - 1.5.1
         - 1.5.3
+        - 1.5.4
         - 2.0.0
         - 2.0.1-preview.1
         - 2.0.1
@@ -652,6 +550,7 @@ m_PackageAssets:
         - 2.1.0
         - 2.1.1
         - 2.1.3
+        - 2.1.4
         - 3.0.0-preview.1
         - 3.0.0-preview.3
         - 3.0.0-preview.4
@@ -666,10 +565,12 @@ m_PackageAssets:
         - 3.0.0
         - 3.0.1
         - 3.0.3
+        - 3.0.4
         compatible:
         - 3.0.1
         - 3.0.3
-        verified: 3.0.3
+        - 3.0.4
+        verified: 3.0.4
       dependencies:
       - name: com.unity.ugui
         version: 1.0.0
@@ -782,7 +683,9 @@ m_PackageAssets:
         - 1.5.1-pre.2
         - 1.5.1-pre.3
         - 1.5.2
+        - 1.5.4
         - 1.6.0-pre.1
+        - 1.6.0-pre.3
         compatible:
         - 1.2.6
         - 1.2.7
@@ -832,7 +735,9 @@ m_PackageAssets:
         - 1.5.1-pre.2
         - 1.5.1-pre.3
         - 1.5.2
+        - 1.5.4
         - 1.6.0-pre.1
+        - 1.6.0-pre.3
         verified: 1.4.6
       dependencies:
       - name: com.unity.modules.director
@@ -1019,6 +924,8 @@ m_PackageAssets:
         - 10.2.1
         - 10.2.2
         - 10.3.1
+        - 10.3.2
+        - 10.4.0
         compatible:
         - 10.2.2
         verified: 10.2.2
@@ -2914,6 +2821,8 @@ m_PackageAssets:
         - 10.2.1
         - 10.2.2
         - 10.3.1
+        - 10.3.2
+        - 10.4.0
         compatible:
         - 10.2.2
         verified: 10.2.2
@@ -3016,82 +2925,6 @@ m_PackageAssets:
         url: https://github.cds.internal.unity3d.com/unity/com.unity.ext.nunit.git
         revision: 29ea4d6504a5f58fb3a6934db839aa80ae6d9d88
         path: 
-    - packageId: com.unity.mathematics@1.1.0
-      testable: 0
-      isDirectDependency: 0
-      version: 1.1.0
-      source: 1
-      resolvedPath: D:\Documents\School\Jaar 3\Game Lab\Portal Dragon\Portal Dragon
-        Game Lab\Library\PackageCache\com.unity.mathematics@1.1.0
-      assetPath: Packages/com.unity.mathematics
-      name: com.unity.mathematics
-      displayName: Mathematics
-      author:
-        name: 
-        email: 
-        url: 
-      category: 
-      type: 
-      description: Unity's C# SIMD math library providing vector types and math functions
-        with a shader like syntax.
-      status: 4
-      errors: []
-      versions:
-        all:
-        - 0.0.12-preview.2
-        - 0.0.12-preview.5
-        - 0.0.12-preview.8
-        - 0.0.12-preview.10
-        - 0.0.12-preview.11
-        - 0.0.12-preview.13
-        - 0.0.12-preview.17
-        - 0.0.12-preview.19
-        - 0.0.12-preview.20
-        - 1.0.0-preview.1
-        - 1.0.1
-        - 1.1.0-preview.1
-        - 1.1.0
-        - 1.2.1
-        compatible:
-        - 0.0.12-preview.2
-        - 0.0.12-preview.5
-        - 0.0.12-preview.8
-        - 0.0.12-preview.10
-        - 0.0.12-preview.11
-        - 0.0.12-preview.13
-        - 0.0.12-preview.17
-        - 0.0.12-preview.19
-        - 0.0.12-preview.20
-        - 1.0.0-preview.1
-        - 1.0.1
-        - 1.1.0-preview.1
-        - 1.1.0
-        - 1.2.1
-        verified: 1.2.1
-      dependencies: []
-      resolvedDependencies: []
-      keywords:
-      - unity
-      registry:
-        id: main
-        name: 
-        url: https://packages.unity.com
-        scopes: []
-        isDefault: 1
-        capabilities: 7
-      hasRegistry: 1
-      hideInEditor: 1
-      entitlements:
-        isAllowed: 1
-      isAssetStorePackage: 0
-      datePublishedTicks: 636984649280000000
-      documentationUrl: 
-      hasRepository: 1
-      repository:
-        type: git
-        url: git@github.com:Unity-Technologies/Unity.Mathematics.git
-        revision: 0a3dfafaf606098ea681de4c4be60f3aac63b773
-        path: 
     - packageId: com.unity.render-pipelines.core@10.2.2
       testable: 0
       isDirectDependency: 0
@@ -3183,12 +3016,28 @@ m_PackageAssets:
         - 7.2.1
         - 7.3.1
         - 7.4.1
+        - 7.4.2
+        - 7.4.3
+        - 7.5.1
+        - 7.5.2
+        - 7.5.3
         - 8.0.1
         - 8.1.0
+        - 8.2.0
+        - 8.3.1
         - 9.0.0-preview.13
         - 9.0.0-preview.35
         - 9.0.0-preview.38
+        - 9.0.0-preview.60
+        - 9.0.0-preview.77
+        - 10.0.0-preview.30
+        - 10.1.0
+        - 10.2.0
+        - 10.2.1
         - 10.2.2
+        - 10.3.1
+        - 10.3.2
+        - 10.4.0
         compatible:
         - 10.2.2
         verified: 10.2.2
@@ -3215,12 +3064,12 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 0
+      datePublishedTicks: 637430478820000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
-        url: https://github.com/Unity-Technologies/Graphics.git
+        url: git+https://github.com/Unity-Technologies/Graphics.git
         revision: a197e35ba4e93349ccbb4fddd4f3f80ba7b1c113
         path: 
     - packageId: com.unity.searcher@4.3.1
@@ -3256,6 +3105,9 @@ m_PackageAssets:
         - 4.2.0
         - 4.3.0
         - 4.3.1
+        - 4.3.2
+        - 4.6.0-preview
+        - 4.7.0-preview
         compatible:
         - 4.0.0-preview
         - 4.0.0
@@ -3268,7 +3120,10 @@ m_PackageAssets:
         - 4.2.0
         - 4.3.0
         - 4.3.1
-        verified: 4.3.1
+        - 4.3.2
+        - 4.6.0-preview
+        - 4.7.0-preview
+        verified: 4.3.2
       dependencies: []
       resolvedDependencies: []
       keywords:

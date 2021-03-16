@@ -28,8 +28,15 @@ public class PortalableObject : MonoBehaviour
     public GameObject cloneGameObject;
     private GameObject ownCameraObject;
     private GameObject cloneCameraObject;
+    private bool hasCamera = false;
 
     private bool fullPortalMovement = false;
+
+    //needed for slicing
+
+    public Material[] originalMaterials;
+    //public Material[] originalMaterials { get; set; }
+    public Material[] cloneMaterials { get; set; }
 
     protected virtual void Awake()
     {
@@ -75,6 +82,7 @@ public class PortalableObject : MonoBehaviour
                 if (allChildren[i].GetComponent<Camera>() != null)
                 {
                     ownCameraObject = allChildren[i];
+                    hasCamera = true;
                     //Destroy(allChildren[i].gameObject);
                 }
             }
@@ -88,6 +96,7 @@ public class PortalableObject : MonoBehaviour
         string originalName = gameObject.name.Replace(" clone", "");
         GameObject originalGameObject = GameObject.Find(originalName);
         originalGameObject.GetComponent<PortalableObject>().cloneGameObject = gameObject;
+        originalGameObject.GetComponent<PortalableObject>().cloneMaterials = originalMaterials;
 
         for (int i = 0; i < allChildren.Count; i++)
         {
@@ -95,6 +104,7 @@ public class PortalableObject : MonoBehaviour
             Destroy(allChildren[i].GetComponent<Collider>());
             if (allChildren[i].GetComponent<Camera>() != null)
             {
+                hasCamera = true;
                 originalGameObject.GetComponent<PortalableObject>().cloneCameraObject = allChildren[i];
             }
         }
@@ -113,6 +123,29 @@ public class PortalableObject : MonoBehaviour
             childCount++;
             allChildren.Add(child);
             FindChildren(child);
+
+            var matList = new List<Material>();
+
+            //find the materials so we can slice them later
+            if (child.GetComponent<MeshRenderer>() != null)
+            {
+                MeshRenderer renderer = child.GetComponent<MeshRenderer>();
+                foreach (var mat in renderer.materials)
+                {
+                    matList.Add(mat);
+                }
+            }
+
+            if (child.GetComponent<SkinnedMeshRenderer>() != null)
+            {
+                SkinnedMeshRenderer skinnedRenderer = child.GetComponent<SkinnedMeshRenderer>();
+                foreach (var mat in skinnedRenderer.materials)
+                {
+                    matList.Add(mat);
+                }
+            }
+
+            originalMaterials = matList.ToArray();
         }
     }
 
@@ -186,6 +219,8 @@ public class PortalableObject : MonoBehaviour
 
     public void SetIsInPortal(Portal inPortal, Portal outPortal, Collider wallCollider)
     {
+        //originalMaterials = GetMaterials(gameObject);
+
         fullPortalMovement = !fullPortalMovement; //otherwise the camera stutters when transitioning
 
         this.inPortal = inPortal;
@@ -195,20 +230,37 @@ public class PortalableObject : MonoBehaviour
 
         cloneObject.SetActive(true);
 
-        if (fullPortalMovement)
+        if (fullPortalMovement && hasCamera)
         {
             cloneCameraObject.SetActive(true);
             ownCameraObject.SetActive(false);
         }
-
         ++inPortalCount;
+    }
+
+    public void SetSliceOffsetDst(float dst, bool clone)
+    {
+        for (int i = 0; i < originalMaterials.Length; i++)
+        {
+            if (clone)
+            {
+                cloneMaterials[i].SetFloat("sliceOffsetDst", dst);
+            }
+            else
+            {
+                originalMaterials[i].SetFloat("sliceOffsetDst", dst);
+            }
+
+        }
     }
 
     public virtual void Warp()
     {
-        ownCameraObject.SetActive(true);
-        cloneCameraObject.SetActive(false);
-
+        if (hasCamera)
+        {
+            ownCameraObject.SetActive(true);
+            cloneCameraObject.SetActive(false);
+        }
 
         var inTransform = inPortal.transform;
         var outTransform = outPortal.transform;
@@ -236,16 +288,29 @@ public class PortalableObject : MonoBehaviour
 
     public void ExitPortal(Collider wallCollider)
     {
-        ownCameraObject.SetActive(false);
-        cloneCameraObject.SetActive(true);
+        // remove the parts of the material that shouldnt be visible
+        for (int i = 0; i < originalMaterials.Length; i++)
+        {
+            originalMaterials[i].SetVector("sliceNormal", Vector3.zero);
+        }
+
+
+        if (hasCamera)
+        {
+            ownCameraObject.SetActive(false);
+            cloneCameraObject.SetActive(true);
+        }
         Physics.IgnoreCollision(collider, wallCollider, false);
         --inPortalCount;
 
         if (inPortalCount == 0)
         {
             cloneObject.SetActive(false);
-            cloneCameraObject.SetActive(false);
-            ownCameraObject.SetActive(true);
+            if (hasCamera)
+            {
+                cloneCameraObject.SetActive(false);
+                ownCameraObject.SetActive(true);
+            }
         }
     }
 }

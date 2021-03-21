@@ -30,12 +30,36 @@ public class Animate : MonoBehaviour
     [SerializeField]
     private float rotateSpeed = 2f;
 
+    [SerializeField]
+    private int childCount = 0;
+
+    private GameObject head;
+
     // Start is called before the first frame update
     void Start()
     {
         partTransforms = new Transform[22];
         nonAnimatedPositions = new Vector3[partTransforms.Length];
-        GetDragonParts();
+        //GetDragonParts();
+        FindChildren(gameObject);
+    }
+
+    void FindChildren(GameObject parent)
+    {
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            GameObject child = parent.transform.GetChild(i).gameObject;
+            if (child.name == "Head")
+                head = child;
+
+            if (child.gameObject.tag == "Dragonbody")
+            {
+                    partTransforms[childCount] = child.transform;
+                    nonAnimatedPositions[childCount] = partTransforms[childCount].localPosition;
+                    childCount++;
+                FindChildren(child);
+            }
+        }
     }
 
     void GetDragonParts()
@@ -59,7 +83,6 @@ public class Animate : MonoBehaviour
                 {
                     currentChildTransform = currentChild.transform;
                     partTransforms[i] = currentChildTransform;
-                    //nonAnimatedPositions[i] = partTransforms[i].position;
                     nonAnimatedPositions[i] = partTransforms[i].localPosition;
                     children++;
                     counter++;
@@ -89,7 +112,6 @@ public class Animate : MonoBehaviour
                     currentChild = currentChildTransform.GetChild(0).gameObject;
                     currentChildTransform = currentChild.transform;
                     partTransforms[i] = currentChildTransform;
-                   // nonAnimatedPositions[i] = partTransforms[i].position;
                     nonAnimatedPositions[i] = partTransforms[i].localPosition;
                     children++;
                 }
@@ -100,7 +122,6 @@ public class Animate : MonoBehaviour
                         currentChild = currentChildTransform.GetChild(1).gameObject;
                         currentChildTransform = currentChild.transform;
                         partTransforms[i] = currentChildTransform;
-                        //nonAnimatedPositions[i] = partTransforms[i].position;
                         nonAnimatedPositions[i] = partTransforms[i].localPosition;
                         children++;
                     }
@@ -119,19 +140,22 @@ public class Animate : MonoBehaviour
         }
     }
 
+
+    float GetHeadDistance(Vector3 position)
+    {
+        return Vector3.Distance(head.transform.position, position);
+    }
+
     void AnimateParts()
     {
         for (int i = 0; i < partTransforms.Length; i++)
         {
             Vector3 pos = partTransforms[i].position;
             
-            //float offset = waveHeight * Mathf.Sin((Time.time * movementSpeed) + (i * waveFrequency));
-            float offsetZ = waveHeightZ * Mathf.Sin(Time.time * movementSpeedZ + (i * waveFrequencyZ));
-            float offsetY = waveHeightY * Mathf.Sin(Time.time * movementSpeedY + (i * waveFrequencyY));
+            float offsetZ = waveHeightZ * Mathf.Sin(Time.time * movementSpeedZ + GetHeadDistance(pos));
+            float offsetY = waveHeightY * Mathf.Sin(Time.time * movementSpeedY + GetHeadDistance(pos));
 
-            //partTransforms[i].localPosition = new Vector3(-offsetX + nonAnimatedPositions[i].x, offsetY + nonAnimatedPositions[i].y, pos.z);
-            partTransforms[i].localPosition = new Vector3(nonAnimatedPositions[i].x, offsetY + nonAnimatedPositions[0].y, -offsetZ + nonAnimatedPositions[0].z);
-
+            partTransforms[i].localPosition = new Vector3(nonAnimatedPositions[i].x, offsetY + nonAnimatedPositions[i].y, -offsetZ + nonAnimatedPositions[i].z);
         }
     }
 

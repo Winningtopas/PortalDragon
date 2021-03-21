@@ -52,7 +52,7 @@ public class PortalSpawner : MonoBehaviour
         {
             cameras[i] = Instantiate(cameraObject, new Vector3(transform.position.x + 10 * i, transform.position.y, transform.position.z), Quaternion.identity);
             //cameras[i].name = "Camera " + i;
-            GameMaster.GetComponent<PortalTextureSetup>().MakeNewRenderTexture(cameras[i]);
+            GameMaster.GetComponent<PortalSetUp>().MakeNewRenderTexture(cameras[i]);
         }
 
         var x = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).x;
@@ -64,16 +64,15 @@ public class PortalSpawner : MonoBehaviour
         for (int i = 0; i < portals.Length; i++)
         {
             if(i == 0)
-            portals[i] = Instantiate(portalObject, new Vector3(transform.position.x + 10 * i, transform.position.y, transform.position.z), rotation);
+            portals[i] = Instantiate(portalObject, new Vector3(transform.position.x, transform.position.y, transform.position.z), rotation);
             else
-                portals[i] = Instantiate(portalObject, new Vector3(transform.position.x, transform.position.y, transform.position.x - 40), Quaternion.Euler(x, y + 180f, z));
+                portals[i] = Instantiate(portalObject, new Vector3(transform.position.x + 80, transform.position.y, transform.position.z), Quaternion.Euler(x, y + 180f, z));
 
-            //portals[i].name = "Portal " + i;
-            GameMaster.GetComponent<PortalTextureSetup>().AssignMaterialToPortal(portals[i], i);
+            GameMaster.GetComponent<PortalSetUp>().AssignMaterialToPortal(portals[i], i);
         }
 
         // link cameras to the portals
-        GameMaster.GetComponent<PortalTextureSetup>().AssignPortalsToCamera();
+        GameMaster.GetComponent<PortalSetUp>().AssignPortalsToCamera();
 
         Destroy(this.gameObject);
     }

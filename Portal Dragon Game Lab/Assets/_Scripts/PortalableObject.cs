@@ -29,7 +29,13 @@ public class PortalableObject : MonoBehaviour
 
     public GameObject cloneGameObject;
     private GameObject ownCameraObject;
+
+    [SerializeField]
     private GameObject cloneCameraObject;
+
+    [SerializeField]
+    private GameObject cameraPosition;
+    private GameObject cameraClonePosition;
     private bool hasCamera = false;
 
     private bool fullPortalMovement = false;
@@ -39,6 +45,8 @@ public class PortalableObject : MonoBehaviour
     public Material[] originalMaterials;
     //public Material[] originalMaterials { get; set; }
     public Material[] cloneMaterials { get; set; }
+
+    private int currentPortalIndex = -1;
 
     protected virtual void Awake()
     {
@@ -89,6 +97,10 @@ public class PortalableObject : MonoBehaviour
                     hasCamera = true;
                     //Destroy(allChildren[i].gameObject);
                 }
+                if (allChildren[i].name == "CameraPosition")
+                {
+                    cameraPosition = allChildren[i];
+                }
             }
         }
     }
@@ -110,6 +122,13 @@ public class PortalableObject : MonoBehaviour
             {
                 hasCamera = true;
                 originalGameObject.GetComponent<PortalableObject>().cloneCameraObject = allChildren[i];
+            }
+
+            if (allChildren[i].name == "Main Camera")
+                Destroy(allChildren[i]);
+            if (allChildren[i].name == "CameraPosition")
+            {
+                originalGameObject.GetComponent<PortalableObject>().cameraClonePosition = allChildren[i];
             }
         }
 
@@ -195,7 +214,21 @@ public class PortalableObject : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(inPortal == null || outPortal == null)
+        //Debug.Log("clone pos: " + cameraClonePosition.position);
+        //if (cameraClonePosition.active)
+        //{
+        //    ownCameraObject.transform.position = cameraClonePosition.transform.position;
+        //    Debug.Log("if");
+        //}
+        //else
+        //{
+        //    ownCameraObject.transform.position = cameraPosition.transform.position;
+        //    Debug.Log("else");
+        //}
+
+
+
+        if (inPortal == null || outPortal == null)
         {
             return;
         }
@@ -221,6 +254,18 @@ public class PortalableObject : MonoBehaviour
         }
     }
 
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if(other.gameObject.name.Contains("Portal "))
+    //    {
+    //        //currentPortalIndex = int.Parse(other.gameObject.name.Replace("Portal ", ""));
+    //       GameObject targetLocationObject = GameObject.Find("Camera " + other.gameObject.name.Replace("Portal ", ""));
+    //        ownCameraObject.transform.position = targetLocationObject.transform.position;
+    //    }
+    //    //ownCameraObject.transform.position = testPosition;
+    //    Debug.Log(other.gameObject.name.Contains(" Clones"));
+    //}
+
     public void SetIsInPortal(Portal inPortal, Portal outPortal, Collider wallCollider)
     {
         //originalMaterials = GetMaterials(gameObject);
@@ -236,9 +281,14 @@ public class PortalableObject : MonoBehaviour
 
         if (fullPortalMovement && hasCamera)
         {
-            gameMaster.GetComponent<PortalSetUp>().SetMainCamera(cloneCameraObject);
-            cloneCameraObject.SetActive(true);
-            ownCameraObject.SetActive(false);
+            Debug.Log("IN PORTAL");
+
+            //ownCameraObject.transform.position = testPosition;
+
+            //gameMaster.GetComponent<PortalSetUp>().SetMainCamera(cloneCameraObject);
+            //cloneCameraObject.SetActive(true);
+            //ownCameraObject.SetActive(false);
+            //ownCameraObject.transform.position = cameraClonePosition.position;
         }
         ++inPortalCount;
     }
@@ -263,9 +313,14 @@ public class PortalableObject : MonoBehaviour
     {
         if (hasCamera)
         {
-            gameMaster.GetComponent<PortalSetUp>().SetMainCamera(ownCameraObject);
-            ownCameraObject.SetActive(true);
-            cloneCameraObject.SetActive(false);
+            Debug.Log("WARP");
+            //ownCameraObject.transform.position = cameraPosition.transform.position;
+
+            //gameMaster.GetComponent<PortalSetUp>().SetMainCamera(ownCameraObject);
+            //ownCameraObject.SetActive(true);
+            //cloneCameraObject.SetActive(false);
+            //ownCameraObject.transform.position = cameraPosition.position;
+
         }
 
         var inTransform = inPortal.transform;
@@ -303,9 +358,13 @@ public class PortalableObject : MonoBehaviour
 
         if (hasCamera)
         {
-            gameMaster.GetComponent<PortalSetUp>().SetMainCamera(cloneCameraObject);
-            ownCameraObject.SetActive(false);
-            cloneCameraObject.SetActive(true);
+            Debug.Log("EXIT PORTAL");
+            //ownCameraObject.transform.position = cameraClonePosition.transform.position;
+
+            //gameMaster.GetComponent<PortalSetUp>().SetMainCamera(cloneCameraObject);
+            //ownCameraObject.SetActive(false);
+            //cloneCameraObject.SetActive(true);
+            //ownCameraObject.transform.position = cameraClonePosition.position;
         }
         Physics.IgnoreCollision(collider, wallCollider, false);
         --inPortalCount;
@@ -315,9 +374,14 @@ public class PortalableObject : MonoBehaviour
             cloneObject.SetActive(false);
             if (hasCamera)
             {
-                gameMaster.GetComponent<PortalSetUp>().SetMainCamera(ownCameraObject);
-                cloneCameraObject.SetActive(false);
-                ownCameraObject.SetActive(true);
+                Debug.Log("EXIT PORTAL, no actives left");
+
+                //ownCameraObject.transform.position = cameraPosition.transform.position;
+
+                //gameMaster.GetComponent<PortalSetUp>().SetMainCamera(ownCameraObject);
+                //cloneCameraObject.SetActive(false);
+                //ownCameraObject.SetActive(true);
+                //ownCameraObject.transform.position = cameraPosition.position;
             }
         }
     }

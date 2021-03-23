@@ -19,6 +19,9 @@ public class Portal : MonoBehaviour
     [SerializeField]
     private Collider wallCollider;
 
+    [SerializeField]
+    Vector3 testPosition;
+
     private void Start()
     {
         player = GameObject.Find("Main Camera").transform;
@@ -34,11 +37,13 @@ public class Portal : MonoBehaviour
             PortalableObject traveller = portalObjects[i];
 
             Vector3 objPos = transform.InverseTransformPoint(portalObjects[i].transform.position);
+            testPosition = objPos;
 
-            if (objPos.z > 0.0f)
-            {
+            //if (objPos.z > 0.0f)
+            //{
+            Debug.Log("CALCULATE THE DOT PRODUCT HERE");
                 portalObjects[i].Warp();
-            }
+            //}
         }
     }
 

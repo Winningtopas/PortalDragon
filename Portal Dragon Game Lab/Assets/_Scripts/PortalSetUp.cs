@@ -8,6 +8,8 @@ public class PortalSetUp : MonoBehaviour {
     public List<GameObject> cameras = new List<GameObject>();
     public List<Material> materials = new List<Material>();
 
+    public List<RenderTexture> renderTextures = new List<RenderTexture>();
+
     //public GameObject currentMainCamera;
 
     private int currentPortal = 0;
@@ -24,6 +26,7 @@ public class PortalSetUp : MonoBehaviour {
             camera.targetTexture.Release();
         }
         camera.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
+        renderTextures.Add(camera.targetTexture);
 
         //create a new material
         Material material = new Material(Shader.Find("Unlit/ScreenCutoutShader"));
@@ -47,24 +50,24 @@ public class PortalSetUp : MonoBehaviour {
         {
             if (i % 2 == 0) // if i is even
             {
-                cameras[i].GetComponent<PortalCamera>().AssignPortals(portals[i], portals[i + 1]);
+                //cameras[i].GetComponent<PortalCamera>().AssignPortals(portals[i], portals[i + 1], renderTextures[i + 1]);
                 portals[i].GetComponent<Portal>().otherPortal = portals[i + 1];
                 portals[i].GetComponent<Portal>().portalCamera = cameras[i + 1];
             }
             else
             {
-                cameras[i].GetComponent<PortalCamera>().AssignPortals(portals[i], portals[i - 1]);
+                //cameras[i].GetComponent<PortalCamera>().AssignPortals(portals[i], portals[i - 1], renderTextures[i - 1]);
                 portals[i].GetComponent<Portal>().otherPortal = portals[i - 1];
                 portals[i].GetComponent<Portal>().portalCamera = cameras[i - 1];
             }
         }
     }
 
-    public void SetMainCamera(GameObject currentCamera)
-    {
-        for(int i = 0; i < cameras.Count; i++)
-        {
-            cameras[i].GetComponent<PortalCamera>().playerCamera = currentCamera;
-        }
-    }
+    //public void SetMainCamera(GameObject currentCamera)
+    //{
+    //    for(int i = 0; i < cameras.Count; i++)
+    //    {
+    //        cameras[i].GetComponent<PortalCamera>().playerCamera = currentCamera;
+    //    }
+    //}
 }

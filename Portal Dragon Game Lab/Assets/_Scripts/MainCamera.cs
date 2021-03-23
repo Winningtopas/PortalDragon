@@ -5,6 +5,8 @@ using UnityEngine;
 public class MainCamera : MonoBehaviour {
 
     public List<GameObject> portals = new List<GameObject>();
+    public List<GameObject> cameras = new List<GameObject>();
+
     private GameObject GameMaster;
 
     //void Awake () {
@@ -19,10 +21,10 @@ public class MainCamera : MonoBehaviour {
     private void Update()
     {
         portals = GameMaster.GetComponent<PortalSetUp>().portals;
+        cameras = GameMaster.GetComponent<PortalSetUp>().cameras;
     }
 
     void OnPreCull () {
-
         //for (int i = 0; i < portals.Length; i++) {
         //    portals[i].PrePortalRender ();
         //}
@@ -31,7 +33,8 @@ public class MainCamera : MonoBehaviour {
         //}
 
         for (int i = 0; i < portals.Count; i++) {
-            portals[i].GetComponent<Portal>().PostPortalRender();
+            //portals[i].GetComponent<Portal>().PostPortalRender();
+            //cameras[i].GetComponent<PortalCamera>().PrePortalRenderer();
         }
 
     }

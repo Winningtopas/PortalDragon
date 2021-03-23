@@ -47,20 +47,21 @@ public class PortalSpawner : MonoBehaviour
 
     void OnDeath()
     {
-        //first make the cameras
+        //make the cameras
         for (int i = 0; i < portals.Length; i++)
         {
             cameras[i] = Instantiate(cameraObject, new Vector3(transform.position.x + 10 * i, transform.position.y, transform.position.z), Quaternion.identity);
-            //cameras[i].name = "Camera " + i;
             GameMaster.GetComponent<PortalSetUp>().MakeNewRenderTexture(cameras[i]);
         }
 
+        //portal rotation values
         var x = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).x;
         var y = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).y;
         var z = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).z;
 
         Quaternion rotation = Quaternion.Euler(x, y, z);
 
+        //make the portals
         for (int i = 0; i < portals.Length; i++)
         {
             if(i == 0)

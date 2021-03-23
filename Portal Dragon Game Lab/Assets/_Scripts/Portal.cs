@@ -142,10 +142,10 @@ public class Portal : MonoBehaviour
     {
         //Debug.Log("test pre render");
 
-        foreach (var traveller in portalObjects)
-        {
-            UpdateSliceParams(traveller);
-        }
+        //foreach (var traveller in portalObjects)
+        //{
+        //    UpdateSliceParams(traveller);
+        //}
         //ProtectScreenFromClipping(playerCam.transform.position);
 
     }

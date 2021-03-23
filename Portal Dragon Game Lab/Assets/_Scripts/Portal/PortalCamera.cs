@@ -21,30 +21,30 @@ public class PortalCamera : MonoBehaviour {
 
     }
 
-    void OnEnable()
-    {
-        RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
-    }
-    void OnDisable()
-    {
-        RenderPipelineManager.endCameraRendering -= RenderPipelineManager_endCameraRendering;
-    }
-    private void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera camera)
-    {
-        OnPreRender();
-    }
+    //void OnEnable()
+    //{
+    //    RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
+    //}
+    //void OnDisable()
+    //{
+    //    RenderPipelineManager.endCameraRendering -= RenderPipelineManager_endCameraRendering;
+    //}
+    //private void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera camera)
+    //{
+    //    OnPreRender();
+    //}
 
     private void OnPreRender()
     {
-        for (int i = iterations - 1; i >= 0; --i)
-        {
-            RenderCamera(i);
-        }
+        //for (int i = iterations - 1; i >= 0; --i)
+        //{
+            RenderCamera(0);
+        //}
     }
 
     void RenderCamera(int iterationID)
     {
-        for (int i = 0; i <= iterationID; ++i)
+        for (int i = 0; i <= 0; ++i)
         {
             relativePos = portal.InverseTransformPoint(playerCamera.transform.position);
             relativePos = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativePos;

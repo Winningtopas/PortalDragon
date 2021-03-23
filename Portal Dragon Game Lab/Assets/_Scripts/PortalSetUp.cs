@@ -7,7 +7,9 @@ public class PortalSetUp : MonoBehaviour {
     public List<GameObject> portals = new List<GameObject>();
     public List<GameObject> cameras = new List<GameObject>();
     public List<Material> materials = new List<Material>();
-	
+
+    //public GameObject currentMainCamera;
+
     private int currentPortal = 0;
 
     public void MakeNewRenderTexture(GameObject cameraGameObject)
@@ -55,6 +57,14 @@ public class PortalSetUp : MonoBehaviour {
                 portals[i].GetComponent<Portal>().otherPortal = portals[i - 1];
                 portals[i].GetComponent<Portal>().portalCamera = cameras[i - 1];
             }
+        }
+    }
+
+    public void SetMainCamera(GameObject currentCamera)
+    {
+        for(int i = 0; i < cameras.Count; i++)
+        {
+            cameras[i].GetComponent<PortalCamera>().playerCamera = currentCamera;
         }
     }
 }

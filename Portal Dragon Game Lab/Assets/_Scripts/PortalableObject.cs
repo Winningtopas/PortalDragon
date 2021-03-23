@@ -8,6 +8,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class PortalableObject : MonoBehaviour
 {
+    private GameObject gameMaster;
+
     private GameObject cloneObject;
 
     private int inPortalCount = 0;
@@ -61,6 +63,8 @@ public class PortalableObject : MonoBehaviour
 
     private void Start()
     {
+        gameMaster = GameObject.Find("GameMaster");
+
         cloneObjectContainer = GameObject.Find("Portable Object Clones");
         FindChildren(this.gameObject);
 
@@ -232,6 +236,7 @@ public class PortalableObject : MonoBehaviour
 
         if (fullPortalMovement && hasCamera)
         {
+            gameMaster.GetComponent<PortalSetUp>().SetMainCamera(cloneCameraObject);
             cloneCameraObject.SetActive(true);
             ownCameraObject.SetActive(false);
         }
@@ -258,6 +263,7 @@ public class PortalableObject : MonoBehaviour
     {
         if (hasCamera)
         {
+            gameMaster.GetComponent<PortalSetUp>().SetMainCamera(ownCameraObject);
             ownCameraObject.SetActive(true);
             cloneCameraObject.SetActive(false);
         }
@@ -297,6 +303,7 @@ public class PortalableObject : MonoBehaviour
 
         if (hasCamera)
         {
+            gameMaster.GetComponent<PortalSetUp>().SetMainCamera(cloneCameraObject);
             ownCameraObject.SetActive(false);
             cloneCameraObject.SetActive(true);
         }
@@ -308,6 +315,7 @@ public class PortalableObject : MonoBehaviour
             cloneObject.SetActive(false);
             if (hasCamera)
             {
+                gameMaster.GetComponent<PortalSetUp>().SetMainCamera(ownCameraObject);
                 cloneCameraObject.SetActive(false);
                 ownCameraObject.SetActive(true);
             }

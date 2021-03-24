@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ce6fbf59424184cbac7e91fc25fe71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 70
+  speed: 0
 --- !u!114 &144087930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2331,7 +2331,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147937832706}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 23.5, y: -30.5, z: -13.2}
+  m_LocalPosition: {x: 23.5, y: -27.4, z: -13.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3488151671382395383}
@@ -2463,6 +2463,7 @@ GameObject:
   - component: {fileID: 144087926}
   - component: {fileID: 144087929}
   - component: {fileID: 144087930}
+  - component: {fileID: 919132147937832707}
   m_Layer: 0
   m_Name: Rayquaza
   m_TagString: Player
@@ -2470,6 +2471,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &919132147937832707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132147937832706}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d4c87500738df4ba82f7bc4b7ba119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSpeed: 0
+  walkingSpeed: 15
 --- !u!1 &989660825244977160
 GameObject:
   m_ObjectHideFlags: 0

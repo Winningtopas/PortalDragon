@@ -14,7 +14,7 @@ public class PortalCamera : MonoBehaviour {
     private Camera mainCamera;
     private GameObject gameMaster;
 
-    private const int iterations = 7;
+    private const int iterations = 3;
 
 
     private void Awake()
@@ -82,7 +82,7 @@ public class PortalCamera : MonoBehaviour {
             relativeRot = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativeRot;
             cameraTransform.rotation = outTransform.rotation * relativeRot;
 
-            GetComponent<Camera>().nearClipPlane = Vector3.Distance(transform.position, outTransform.position);
+            //GetComponent<Camera>().nearClipPlane = Vector3.Distance(transform.position, outTransform.position);
         }
 
         // Set the camera's oblique view frustum.

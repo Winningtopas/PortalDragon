@@ -23,6 +23,11 @@ public class ShootPortalSpawner : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            shoot = true;
+        }
+
         if (shoot)
         {
             Shoot();

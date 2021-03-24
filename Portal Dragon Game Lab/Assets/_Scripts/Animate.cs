@@ -181,7 +181,7 @@ public class Animate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(ready)
+        if (ready)
             AnimateParts();
         //RotateParts();
     }

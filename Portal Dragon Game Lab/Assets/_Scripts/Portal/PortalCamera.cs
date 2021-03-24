@@ -44,15 +44,18 @@ public class PortalCamera : MonoBehaviour {
 
             for (int i = 0; i < cameraAmount; i++)
             {
-                portalCamera = cameras[i].GetComponent<Camera>();
-                portalCamera.targetTexture = renderTextures[i];
-
-                for (int j = iterations - 1; j >= 0; --j) // render the recursion
+                if (portals[i].GetComponent<Portal>().IsRendererVisible())
                 {
-                    if (i % 2 == 0) // if i is even
-                        RenderCamera(portals[i].GetComponent<Portal>(), portals[i + 1].GetComponent<Portal>(), j);
-                    else
-                        RenderCamera(portals[i].GetComponent<Portal>(), portals[i - 1].GetComponent<Portal>(), j);
+                    portalCamera = cameras[i].GetComponent<Camera>();
+                    portalCamera.targetTexture = renderTextures[i];
+
+                    for (int j = iterations - 1; j >= 0; --j) // render the recursion
+                    {
+                        if (i % 2 == 0) // if i is even
+                            RenderCamera(portals[i].GetComponent<Portal>(), portals[i + 1].GetComponent<Portal>(), j);
+                        else
+                            RenderCamera(portals[i].GetComponent<Portal>(), portals[i - 1].GetComponent<Portal>(), j);
+                    }
                 }
             }
         }
@@ -78,18 +81,21 @@ public class PortalCamera : MonoBehaviour {
             Quaternion relativeRot = Quaternion.Inverse(inTransform.rotation) * cameraTransform.rotation;
             relativeRot = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativeRot;
             cameraTransform.rotation = outTransform.rotation * relativeRot;
+
+            GetComponent<Camera>().nearClipPlane = Vector3.Distance(transform.position, outTransform.position);
         }
 
         // Set the camera's oblique view frustum.
-        Plane p = new Plane(-outTransform.forward, outTransform.position);
-        Vector4 clipPlane = new Vector4(p.normal.x, p.normal.y, p.normal.z, p.distance);
-        Vector4 clipPlaneCameraSpace =
-            Matrix4x4.Transpose(Matrix4x4.Inverse(portalCamera.worldToCameraMatrix)) * clipPlane;
+        //Plane p = new Plane(-outTransform.forward, outTransform.position);
+        //Vector4 clipPlane = new Vector4(p.normal.x, p.normal.y, p.normal.z, p.distance);
+        //Vector4 clipPlaneCameraSpace =
+        //    Matrix4x4.Transpose(Matrix4x4.Inverse(portalCamera.worldToCameraMatrix)) * clipPlane;
 
-        var newMatrix = mainCamera.CalculateObliqueMatrix(clipPlaneCameraSpace);
-        portalCamera.projectionMatrix = newMatrix;
+        //var newMatrix = mainCamera.CalculateObliqueMatrix(clipPlaneCameraSpace);
+        //portalCamera.projectionMatrix = newMatrix;
 
         // Render the camera to its render target.
+        //if(portalCamera != null)
         portalCamera.Render();
     }
 }

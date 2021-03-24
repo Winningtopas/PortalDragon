@@ -16,6 +16,7 @@ public class DragonMoveForward : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
+        Debug.DrawRay(transform.position, (transform.forward) * 10, Color.blue);
         Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
         rb.velocity = forward * speed * Time.deltaTime;
     }

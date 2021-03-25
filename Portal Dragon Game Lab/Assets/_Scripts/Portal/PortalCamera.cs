@@ -52,16 +52,16 @@ public class PortalCamera : MonoBehaviour {
                     for (int j = iterations - 1; j >= 0; --j) // render the recursion
                     {
                         if (i % 2 == 0) // if i is even
-                            RenderCamera(portals[i].GetComponent<Portal>(), portals[i + 1].GetComponent<Portal>(), j);
+                            RenderCamera(portals[i].GetComponent<Portal>(), portals[i + 1].GetComponent<Portal>(), j, i);
                         else
-                            RenderCamera(portals[i].GetComponent<Portal>(), portals[i - 1].GetComponent<Portal>(), j);
+                            RenderCamera(portals[i].GetComponent<Portal>(), portals[i - 1].GetComponent<Portal>(), j, i);
                     }
                 }
             }
         }
     }
 
-    private void RenderCamera(Portal inPortal, Portal outPortal, int iterationID)
+    private void RenderCamera(Portal inPortal, Portal outPortal, int iterationID, int currentCamera)
     {
         Transform inTransform = inPortal.transform;
         Transform outTransform = outPortal.transform;
@@ -82,7 +82,8 @@ public class PortalCamera : MonoBehaviour {
             relativeRot = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativeRot;
             cameraTransform.rotation = outTransform.rotation * relativeRot;
 
-            //GetComponent<Camera>().nearClipPlane = Vector3.Distance(transform.position, outTransform.position);
+            //adjusting the near clipping plane
+            cameras[currentCamera].GetComponent<Camera>().nearClipPlane = Vector3.Distance(cameras[currentCamera].transform.position, outTransform.position);
         }
 
         // Set the camera's oblique view frustum.

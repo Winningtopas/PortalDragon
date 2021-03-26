@@ -73,7 +73,7 @@ public class PortalSpawner : MonoBehaviour
         for (int i = 0; i < portals.Length; i++)
         {
             if(i == 0)
-            portals[i] = Instantiate(portalObject, transform.position, rotation);
+                portals[i] = Instantiate(portalObject, transform.position, rotation);
             else
                 portals[i] = Instantiate(portalObject, transform.position + transform.forward * -75, Quaternion.Euler(-x, y + 180f, -z)); // behind the first portal and (likely) the dragon
 

@@ -43,26 +43,13 @@ public class PortalableObject : MonoBehaviour
     //needed for slicing
 
     public Material[] originalMaterials;
-    //public Material[] originalMaterials { get; set; }
     public Material[] cloneMaterials { get; set; }
 
     private int currentPortalIndex = -1;
 
     protected virtual void Awake()
     {
-        //MakeCloneChildren();
-        //SetChildren(cloneObject);
-        //cloneObject.SetActive(false);
-
-        //var meshFilter = cloneObject.AddComponent<MeshFilter>();
-        //var meshRenderer = cloneObject.AddComponent<MeshRenderer>();
-
-        //meshFilter.mesh = GetComponent<MeshFilter>().mesh;
-        //meshRenderer.materials = GetComponent<MeshRenderer>().materials;
-        //cloneObject.transform.localScale = transform.localScale;
-
         GetComponent<Collider>().enabled = false;
-
 
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
@@ -95,7 +82,6 @@ public class PortalableObject : MonoBehaviour
                 {
                     ownCameraObject = allChildren[i];
                     hasCamera = true;
-                    //Destroy(allChildren[i].gameObject);
                 }
                 if (allChildren[i].name == "CameraPosition")
                 {
@@ -124,8 +110,6 @@ public class PortalableObject : MonoBehaviour
                 originalGameObject.GetComponent<PortalableObject>().cloneCameraObject = allChildren[i];
             }
 
-            //if (allChildren[i].name == "Main Camera")
-            //    Destroy(allChildren[i]);
             if (allChildren[i].name == "CameraPosition")
             {
                 originalGameObject.GetComponent<PortalableObject>().cameraClonePosition = allChildren[i];
@@ -172,62 +156,8 @@ public class PortalableObject : MonoBehaviour
         }
     }
 
-    void MakeCloneChildren()
-    {
-        for (int i = 0; i < allChildren.Count; i++)
-        {
-            GameObject childClone = new GameObject();
-            childClone.name = allChildren[i].name + " clone";
-            childClone.SetActive(false);
-
-            if (allChildren[i].GetComponent<MeshFilter>())
-            {
-                var meshFilter = childClone.AddComponent<MeshFilter>();
-                meshFilter.mesh = allChildren[i].GetComponent<MeshFilter>().mesh;
-            }
-
-            if (allChildren[i].GetComponent<MeshRenderer>())
-            {
-                var meshRenderer = childClone.AddComponent<MeshRenderer>();
-                meshRenderer.materials = allChildren[i].GetComponent<MeshRenderer>().materials;
-            }
-
-            if (allChildren[i].GetComponent<SkinnedMeshRenderer>())
-            {
-                var skinnedRenderer = childClone.AddComponent<SkinnedMeshRenderer>();
-                skinnedRenderer.materials = allChildren[i].GetComponent<SkinnedMeshRenderer>().materials;
-            }
-
-            childClone.transform.localScale = allChildren[i].transform.localScale;
-
-            childClone.transform.parent = cloneObject.transform;
-        }
-    }
-
-    void SetChildren(GameObject parent)
-    {
-        for(int i = 0; i < allChildren.Count; i++)
-        {
-            allChildren[i].transform.parent = parent.transform;
-        }
-    }
-
     private void LateUpdate()
     {
-        //Debug.Log("clone pos: " + cameraClonePosition.position);
-        //if (cameraClonePosition.active)
-        //{
-        //    ownCameraObject.transform.position = cameraClonePosition.transform.position;
-        //    Debug.Log("if");
-        //}
-        //else
-        //{
-        //    ownCameraObject.transform.position = cameraPosition.transform.position;
-        //    Debug.Log("else");
-        //}
-
-
-
         if (inPortal == null || outPortal == null)
         {
             return;
@@ -254,22 +184,8 @@ public class PortalableObject : MonoBehaviour
         }
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if(other.gameObject.name.Contains("Portal "))
-    //    {
-    //        //currentPortalIndex = int.Parse(other.gameObject.name.Replace("Portal ", ""));
-    //       GameObject targetLocationObject = GameObject.Find("Camera " + other.gameObject.name.Replace("Portal ", ""));
-    //        ownCameraObject.transform.position = targetLocationObject.transform.position;
-    //    }
-    //    //ownCameraObject.transform.position = testPosition;
-    //    Debug.Log(other.gameObject.name.Contains(" Clones"));
-    //}
-
     public void SetIsInPortal(Portal inPortal, Portal outPortal, Collider wallCollider)
     {
-        //originalMaterials = GetMaterials(gameObject);
-
         fullPortalMovement = !fullPortalMovement; //otherwise the camera stutters when transitioning
 
         this.inPortal = inPortal;
@@ -281,15 +197,11 @@ public class PortalableObject : MonoBehaviour
 
         if (fullPortalMovement && hasCamera)
         {
-            //Debug.Log("IN PORTAL");
-
-            //ownCameraObject.transform.position = testPosition;
-
-            //gameMaster.GetComponent<PortalSetUp>().SetMainCamera(cloneCameraObject);
             cloneCameraObject.SetActive(true);
             ownCameraObject.SetActive(false);
-            //ownCameraObject.transform.position = cameraClonePosition.position;
         }
+        //Debug.Break();
+
         ++inPortalCount;
     }
 
@@ -313,14 +225,8 @@ public class PortalableObject : MonoBehaviour
     {
         if (hasCamera)
         {
-            //Debug.Log("WARP");
-            //ownCameraObject.transform.position = cameraPosition.transform.position;
-
-            //gameMaster.GetComponent<PortalSetUp>().SetMainCamera(ownCameraObject);
             ownCameraObject.SetActive(true);
             cloneCameraObject.SetActive(false);
-            //ownCameraObject.transform.position = cameraPosition.position;
-
         }
 
         var inTransform = inPortal.transform;
@@ -355,16 +261,10 @@ public class PortalableObject : MonoBehaviour
             originalMaterials[i].SetVector("sliceNormal", Vector3.zero);
         }
 
-
         if (hasCamera)
         {
-            //Debug.Log("EXIT PORTAL");
-            //ownCameraObject.transform.position = cameraClonePosition.transform.position;
-
-            //gameMaster.GetComponent<PortalSetUp>().SetMainCamera(cloneCameraObject);
             ownCameraObject.SetActive(false);
             cloneCameraObject.SetActive(true);
-            //ownCameraObject.transform.position = cameraClonePosition.position;
         }
         Physics.IgnoreCollision(collider, wallCollider, false);
         --inPortalCount;
@@ -374,14 +274,8 @@ public class PortalableObject : MonoBehaviour
             cloneObject.SetActive(false);
             if (hasCamera)
             {
-                //Debug.Log("EXIT PORTAL, no actives left");
-
-                //ownCameraObject.transform.position = cameraPosition.transform.position;
-
-                //gameMaster.GetComponent<PortalSetUp>().SetMainCamera(ownCameraObject);
                 cloneCameraObject.SetActive(false);
                 ownCameraObject.SetActive(true);
-                //ownCameraObject.transform.position = cameraPosition.position;
             }
         }
     }

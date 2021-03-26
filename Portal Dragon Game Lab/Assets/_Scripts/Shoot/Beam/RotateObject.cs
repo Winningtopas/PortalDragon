@@ -11,8 +11,7 @@ public class RotateObject : MonoBehaviour
     [SerializeField]
     private float rotationSpeedZ = 10f;
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         transform.Rotate((rotationSpeedX * Time.deltaTime), (rotationSpeedY * Time.deltaTime), (rotationSpeedZ * Time.deltaTime));
     }

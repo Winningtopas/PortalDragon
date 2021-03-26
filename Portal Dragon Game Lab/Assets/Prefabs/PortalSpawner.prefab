@@ -252,6 +252,8 @@ MonoBehaviour:
   speed: 125
   portalObject: {fileID: 3959302167147445860, guid: 592cbda30824f3c48bbb364659f4d8c6, type: 3}
   cameraObject: {fileID: 472372046429055984, guid: 8b90fe2ddaab5af4fabad00cd80b40d9, type: 3}
+  portalCollection: {fileID: 0}
+  portalCameras: {fileID: 0}
   lifeTime: 1.5
 --- !u!65 &3051921876197685506
 BoxCollider:
@@ -261,7 +263,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2893174319848988821}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}

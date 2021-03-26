@@ -25,6 +25,15 @@ public class Portal : MonoBehaviour
 
     public float dotProduct;
 
+    // resizing the portals
+
+    private Vector3 destinationScale;
+    private float scaleSpeed = 0.25f;
+    private float scaleAmount = 10f;
+
+    private ParticleSystem particleChild;
+    private float destinationRadius;
+
     private void Awake()
     {
         renderer = GetComponentInChildren<Renderer>();
@@ -34,6 +43,28 @@ public class Portal : MonoBehaviour
     {
         player = GameObject.Find("Main Camera").transform;
         wallCollider = otherPortal.GetComponent<Collider>();
+
+        ScalePortal();
+    }
+
+    private void ScalePortal()
+    {
+        // scale the portal to it's normal size
+
+        FindChildren(gameObject);
+
+        //ParticleSystem.EmissionModule em = particleChild.emission;
+        //em.rateOverTime = em.rateOverTime.constant / scaleAmount;
+        //Debug.Log(em.rateOverTime);
+
+        ParticleSystem.ShapeModule ps = particleChild.shape;
+        destinationRadius = ps.radius;
+        ps.radius = ps.radius / scaleAmount;
+
+        destinationScale = transform.localScale;
+        transform.localScale = transform.localScale / scaleAmount;
+
+        StartCoroutine(ScaleOverTime(scaleSpeed));
     }
 
     // Update is called once per frame
@@ -70,85 +101,53 @@ public class Portal : MonoBehaviour
         }
     }
 
+    void FindChildren(GameObject parent)
+    {
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            GameObject child = parent.transform.GetChild(i).gameObject;
+            if (child.GetComponent<ParticleSystem>() != null)
+            {
+                particleChild = child.GetComponent<ParticleSystem>();
+                break;
+            }
+        }
+    }
+
+    IEnumerator ScaleOverTime(float time)
+    {
+        ParticleSystem.ShapeModule ps = particleChild.shape;
+        float originalRadius = ps.radius;
+
+        Vector3 originalScale = transform.localScale;
+
+        float currentTime = 0.0f;
+        Debug.Log(destinationRadius + " original: " + originalRadius);
+        do
+        {
+            ps.radius = Mathf.Lerp(originalRadius, destinationRadius, currentTime / time);
+            //ps.radius = ps.radius / scaleAmount;
+
+
+            transform.localScale = Vector3.Lerp(originalScale, destinationScale, currentTime / time);
+
+
+            currentTime += Time.deltaTime;
+            yield return null;
+        } while (currentTime < time);
+
+        // sets the exact value, because Lerp never get's there
+        if(currentTime >= time)
+        {
+            transform.localScale = destinationScale;
+            yield return null;
+        }
+    }
+
     public bool IsRendererVisible()
     {
         return renderer.isVisible;
     }
-
-
-    //void Update()
-    //{
-    //    teleportLocation = otherPortal.transform;
-
-
-    //    //    //testPositonPlayer = portalToPlayer;
-    //    //    //float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
-
-
-    //    //    Vector3 forward = transform.TransformDirection(transform.forward);
-    //    //    Vector3 toOther = player.position - transform.position;
-    //    //    float dotProduct = Vector3.Dot(forward, toOther);
-    //    //    // If this is true: The player has moved across the portal
-    //    //    if (dotProduct < 0f)
-    //    //    {
-    //    //        // Teleport him!
-    //    //        Debug.Log("Teleport!");
-    //    //        float rotationDiff = -Quaternion.Angle(transform.rotation, teleportLocation.rotation);
-    //    //        rotationDiff += 180;
-    //    //        player.Rotate(Vector3.up, rotationDiff);
-
-    //    //        Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
-    //    //        player.position = teleportLocation.position + positionOffset;
-
-    //    //        playerIsOverlapping = false;
-    //    //    }
-    //    //}
-
-    //    Vector3 forward = transform.TransformDirection(Vector3.forward);
-    //    Vector3 toOther = player.position - transform.position;
-    //    dot = Vector3.Dot(forward, toOther);
-
-    //    if (playerIsOverlapping)
-    //    {
-    //        Vector3 portalToPlayer = transform.position - player.position;
-    //        if (dot > 0) // the player is in front of the portal
-    //        {
-    //            // Teleport him!
-    //            Debug.Log("Teleport!");
-    //            float rotationDiff = -Quaternion.Angle(transform.rotation, teleportLocation.rotation);
-    //            rotationDiff += 0;
-    //            //player.Rotate(Vector3.up, rotationDiff);
-    //            var x = UnityEditor.TransformUtils.GetInspectorRotation(portalCamera.transform).x;
-    //            var y = UnityEditor.TransformUtils.GetInspectorRotation(portalCamera.transform).y;
-    //            var z = UnityEditor.TransformUtils.GetInspectorRotation(portalCamera.transform).z;
-
-    //            Quaternion rotation = Quaternion.Euler(x, y, z);
-    //            player.transform.rotation = rotation;
-
-    //            Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
-    //            player.position = teleportLocation.position + positionOffset;
-
-    //            playerIsOverlapping = false;
-    //        }
-    //    }
-    //}
-
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.tag == "Player")
-    //    {
-    //        playerIsOverlapping = true;
-    //    }
-    //}
-
-    //void OnTriggerExit(Collider other)
-    //{
-    //    if (other.tag == "Player")
-    //    {
-    //        playerIsOverlapping = false;
-    //    }
-    //}
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -235,11 +234,4 @@ public class Portal : MonoBehaviour
     {
         return SideOfPortal(posA) == SideOfPortal(posB);
     }
-
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    Debug.Log("Collision with: " + collision.gameObject.name);
-    //    collision.transform.position = otherPortal.transform.position;
-    //}
 }

@@ -73,7 +73,7 @@ public class PortalableObject : MonoBehaviour
     {
         gameMaster = GameObject.Find("GameMaster");
 
-        cloneObjectContainer = GameObject.Find("Portable Object Clones");
+        cloneObjectContainer = GameObject.Find("Portalable Object Clones");
         FindChildren(this.gameObject);
 
         if (gameObject.name.Contains(" clone"))
@@ -384,5 +384,11 @@ public class PortalableObject : MonoBehaviour
                 //ownCameraObject.transform.position = cameraPosition.position;
             }
         }
+    }
+
+    public void DestroyObject()
+    {
+        Destroy(cloneGameObject);
+        Destroy(this.gameObject);
     }
 }

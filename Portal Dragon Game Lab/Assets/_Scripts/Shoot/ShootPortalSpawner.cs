@@ -6,6 +6,7 @@ public class ShootPortalSpawner : MonoBehaviour
 {
     public GameObject portalSpawner;
     private GameObject currentPortalSpawner;
+    [SerializeField]
     private GameObject trueParent;
 
     [SerializeField]
@@ -14,7 +15,7 @@ public class ShootPortalSpawner : MonoBehaviour
     private void Start()
     {
         FindParent(gameObject);
-        if (gameObject.transform.root.gameObject.name.Contains(" Clones")) // if the gameobject is a clone for the purpose of portal traveling
+        if (trueParent.name.Contains(" clone")) // if the gameobject is a clone for the purpose of portal traveling
         {
             shoot = false;
             Destroy(GetComponent<ShootPortalSpawner>());

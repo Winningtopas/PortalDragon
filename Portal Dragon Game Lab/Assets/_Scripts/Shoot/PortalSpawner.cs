@@ -11,6 +11,11 @@ public class PortalSpawner : MonoBehaviour
     public GameObject portalObject;
     public GameObject cameraObject;
 
+    [SerializeField]
+    private GameObject portalCollection;
+    [SerializeField]
+    private GameObject portalCameras;
+
     GameObject[] portals = new GameObject[2];
     GameObject[] cameras = new GameObject[2];
 
@@ -20,6 +25,8 @@ public class PortalSpawner : MonoBehaviour
     void Start()
     {
         GameMaster = GameObject.Find("GameMaster");
+        portalCollection = GameObject.Find("Portal Collection");
+        portalCameras = GameObject.Find("Portal Cameras");
     }
 
     // Update is called once per frame
@@ -52,6 +59,7 @@ public class PortalSpawner : MonoBehaviour
         {
             cameras[i] = Instantiate(cameraObject, new Vector3(transform.position.x + 10 * i, transform.position.y, transform.position.z), Quaternion.identity);
             GameMaster.GetComponent<PortalSetUp>().MakeNewRenderTexture(cameras[i]);
+            cameras[i].transform.parent = portalCameras.transform;
         }
 
         //portal rotation values
@@ -69,12 +77,14 @@ public class PortalSpawner : MonoBehaviour
             else
                 portals[i] = Instantiate(portalObject, transform.position + transform.forward * -75, Quaternion.Euler(-x, y + 180f, -z)); // behind the first portal and (likely) the dragon
 
+            portals[i].transform.parent = portalCollection.transform;
+
             GameMaster.GetComponent<PortalSetUp>().AssignMaterialToPortal(portals[i], i);
         }
 
         // link cameras to the portals
         GameMaster.GetComponent<PortalSetUp>().AssignPortalsToCamera();
 
-        Destroy(this.gameObject);
+        GetComponent<PortalableObject>().DestroyObject();
     }
 }

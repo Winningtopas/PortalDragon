@@ -14,8 +14,7 @@ public class PortalCamera : MonoBehaviour {
     private Camera mainCamera;
     private GameObject gameMaster;
 
-    private const int iterations = 3;
-
+    private const int iterations = 7;
 
     private void Awake()
     {
@@ -25,23 +24,25 @@ public class PortalCamera : MonoBehaviour {
     private void Start()
     {
         gameMaster = GameObject.Find("GameMaster");
+
+        portals = gameMaster.GetComponent<PortalSetUp>().portals;
+        cameras = gameMaster.GetComponent<PortalSetUp>().cameras;
+        renderTextures = gameMaster.GetComponent<PortalSetUp>().renderTextures;
     }
 
-    // Update is called once per frame
-    void Update () {
-        portals = gameMaster.GetComponent<PortalSetUp>().portals;
+    public void UpdateLists(List<GameObject> port, List<GameObject> cams, List<RenderTexture> rt)
+    {
+        portals = port;
+        cameras = cams;
+        renderTextures = rt;
     }
 
     private void OnPreRender()
     {
-        cameras = gameMaster.GetComponent<PortalSetUp>().cameras;
-        renderTextures = gameMaster.GetComponent<PortalSetUp>().renderTextures;
-
         int cameraAmount = cameras.Count;
 
         if (cameraAmount > 0)
         {
-
             for (int i = 0; i < cameraAmount; i++)
             {
                 if (portals[i].GetComponent<Portal>().IsRendererVisible())
@@ -85,57 +86,6 @@ public class PortalCamera : MonoBehaviour {
             //adjusting the near clipping plane
             cameras[currentCamera].GetComponent<Camera>().nearClipPlane = Vector3.Distance(cameras[currentCamera].transform.position, outTransform.position);
         }
-
-        // Set the camera's oblique view frustum.
-        //Plane p = new Plane(-outTransform.forward, outTransform.position);
-        //Vector4 clipPlane = new Vector4(p.normal.x, p.normal.y, p.normal.z, p.distance);
-        //Vector4 clipPlaneCameraSpace =
-        //    Matrix4x4.Transpose(Matrix4x4.Inverse(portalCamera.worldToCameraMatrix)) * clipPlane;
-
-        //var newMatrix = mainCamera.CalculateObliqueMatrix(clipPlaneCameraSpace);
-        //portalCamera.projectionMatrix = newMatrix;
-
-        // Render the camera to its render target.
-        //if(portalCamera != null)
         portalCamera.Render();
     }
 }
-
-
-//public void PrePortalRenderer()
-//    {
-//        Debug.Log("portal camera ");
-//        //GetComponent<Camera>().targetTexture = renderTexture;
-//        for (int i = iterations - 1; i >= 0; --i)
-//        {
-//            RenderCamera(i);
-//        }
-//    }
-
-//    void RenderCamera(int iterationID)
-//    {
-//        for (int i = 0; i <= iterationID; ++i)
-//        {
-//            relativePos = portal.InverseTransformPoint(playerCamera.transform.position);
-//            relativePos = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativePos;
-//            transform.position = otherPortal.transform.TransformPoint(relativePos);
-
-//            Quaternion relativeRot = Quaternion.Inverse(portal.rotation) * playerCamera.transform.rotation;
-//            relativeRot = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativeRot;
-//            transform.rotation = otherPortal.transform.rotation * relativeRot;
-
-//            //adjusting the near clipping plane
-//            GetComponent<Camera>().nearClipPlane = Vector3.Distance(transform.position, otherPortal.position);
-//        }
-//    }
-
-//    public void AssignPortals(GameObject portalGameObject, GameObject otherPortalGameObject, RenderTexture rt)
-//    {
-//        playerCamera = GameObject.Find("Main Camera");
-//        portal = portalGameObject.transform;
-//        otherPortal = otherPortalGameObject.transform;
-
-//        //renderTexture = rt;
-//    }
-
-//}

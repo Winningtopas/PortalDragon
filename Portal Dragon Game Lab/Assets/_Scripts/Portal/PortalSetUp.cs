@@ -7,12 +7,14 @@ public class PortalSetUp : MonoBehaviour {
     public List<GameObject> portals = new List<GameObject>();
     public List<GameObject> cameras = new List<GameObject>();
     public List<Material> materials = new List<Material>();
-
     public List<RenderTexture> renderTextures = new List<RenderTexture>();
 
-    //public GameObject currentMainCamera;
+    private GameObject mainCamera;
 
-    private int currentPortal = 0;
+    private void Start()
+    {
+        mainCamera = GameObject.Find("Main Camera");
+    }
 
     public void MakeNewRenderTexture(GameObject cameraGameObject)
     {
@@ -38,36 +40,27 @@ public class PortalSetUp : MonoBehaviour {
 
     public void AssignMaterialToPortal(GameObject portal, int i)
     {
-        portal.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = materials[currentPortal];
+        //Child(0) is the mesh
+        portal.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = materials[portals.Count];
         portal.name = "Portal " + portals.Count;
         portals.Add(portal);
-        currentPortal++;
     }
 
     public void AssignPortalsToCamera()
     {
-        for(int i = 0; i < cameras.Count; i++)
+        for(int i = 0; i < portals.Count; i++)
         {
             if (i % 2 == 0) // if i is even
             {
-                //cameras[i].GetComponent<PortalCamera>().AssignPortals(portals[i], portals[i + 1], renderTextures[i + 1]);
                 portals[i].GetComponent<Portal>().otherPortal = portals[i + 1];
                 portals[i].GetComponent<Portal>().portalCamera = cameras[i + 1];
             }
             else
             {
-                //cameras[i].GetComponent<PortalCamera>().AssignPortals(portals[i], portals[i - 1], renderTextures[i - 1]);
                 portals[i].GetComponent<Portal>().otherPortal = portals[i - 1];
                 portals[i].GetComponent<Portal>().portalCamera = cameras[i - 1];
             }
         }
+        mainCamera.GetComponent<PortalCamera>().UpdateLists(portals, cameras, renderTextures);
     }
-
-    //public void SetMainCamera(GameObject currentCamera)
-    //{
-    //    for(int i = 0; i < cameras.Count; i++)
-    //    {
-    //        cameras[i].GetComponent<PortalCamera>().playerCamera = currentCamera;
-    //    }
-    //}
 }

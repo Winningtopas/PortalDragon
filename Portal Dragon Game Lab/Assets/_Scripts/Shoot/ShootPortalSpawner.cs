@@ -51,18 +51,21 @@ public class ShootPortalSpawner : MonoBehaviour
 
     void FindParent(GameObject currentObject)
     {
-        GameObject parentObject = currentObject.transform.parent.gameObject;
-
-        //find the root parent so we can later use their rotation for the shoot function. 
-        //NOTE: we can't use the root for this, because the root gameobject may not be the actual shooting object
-
-        if (parentObject.GetComponent<MainObject>() == null)
+        if (currentObject.GetComponent<MainObject>() == null)
         {
-            FindParent(parentObject);
-        }
-        else
-        {
-            trueParent = parentObject;
+            GameObject parentObject = currentObject.transform.parent.gameObject;
+
+            //find the root parent so we can later use their rotation for the shoot function. 
+            //NOTE: we can't use the root for this, because the root gameobject may not be the actual shooting object
+
+            if (parentObject.GetComponent<MainObject>() == null)
+            {
+                FindParent(parentObject);
+            }
+            else
+            {
+                trueParent = parentObject;
+            }
         }
     }
 }

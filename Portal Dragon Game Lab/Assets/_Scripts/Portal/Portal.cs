@@ -53,10 +53,6 @@ public class Portal : MonoBehaviour
 
         FindChildren(gameObject);
 
-        //ParticleSystem.EmissionModule em = particleChild.emission;
-        //em.rateOverTime = em.rateOverTime.constant / scaleAmount;
-        //Debug.Log(em.rateOverTime);
-
         ParticleSystem.ShapeModule ps = particleChild.shape;
         destinationRadius = ps.radius;
         ps.radius = ps.radius / scaleAmount;
@@ -72,9 +68,14 @@ public class Portal : MonoBehaviour
     private void Update()
     {
         Debug.DrawRay(transform.position, transform.forward * 10, Color.red);
-        //Debug.DrawRay(transform.position, new Vector3(-newDirection.x, newDirection.y, newDirection.z) * 10, Color.yellow);
         for (int i = 0; i < portalObjects.Count; ++i)
         {
+            //if the portalobject got destroyed
+            if(portalObjects[i] == null)
+            {
+               break;
+            }
+
             PortalableObject traveller = portalObjects[i];
 
             Vector3 objPos = transform.InverseTransformPoint(portalObjects[i].transform.position);
@@ -120,17 +121,12 @@ public class Portal : MonoBehaviour
         float originalRadius = ps.radius;
 
         Vector3 originalScale = transform.localScale;
-
         float currentTime = 0.0f;
-        Debug.Log(destinationRadius + " original: " + originalRadius);
+
         do
         {
             ps.radius = Mathf.Lerp(originalRadius, destinationRadius, currentTime / time);
-            //ps.radius = ps.radius / scaleAmount;
-
-
             transform.localScale = Vector3.Lerp(originalScale, destinationScale, currentTime / time);
-
 
             currentTime += Time.deltaTime;
             yield return null;
@@ -139,6 +135,7 @@ public class Portal : MonoBehaviour
         // sets the exact value, because Lerp never get's there
         if(currentTime >= time)
         {
+            ps.radius = destinationRadius;
             transform.localScale = destinationScale;
             yield return null;
         }

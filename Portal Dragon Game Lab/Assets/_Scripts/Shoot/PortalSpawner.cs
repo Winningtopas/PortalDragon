@@ -57,7 +57,8 @@ public class PortalSpawner : MonoBehaviour
         //make the cameras
         for (int i = 0; i < portals.Length; i++)
         {
-            cameras[i] = Instantiate(cameraObject, new Vector3(transform.position.x + 10 * i, transform.position.y, transform.position.z), Quaternion.identity);
+            cameras[i] = Instantiate(cameraObject, new Vector3(transform.position.x + 10 * i, transform.position.y, transform.position.z),
+                Quaternion.identity);
             GameMaster.GetComponent<PortalSetUp>().MakeNewRenderTexture(cameras[i]);
             cameras[i].transform.parent = portalCameras.transform;
         }
@@ -72,10 +73,11 @@ public class PortalSpawner : MonoBehaviour
         //make the portals
         for (int i = 0; i < portals.Length; i++)
         {
-            if(i == 0)
+            if(i == 0) //the first portal
                 portals[i] = Instantiate(portalObject, transform.position, rotation);
-            else
-                portals[i] = Instantiate(portalObject, transform.position + transform.forward * -75, Quaternion.Euler(-x, y + 180f, -z)); // behind the first portal and (likely) the dragon
+            else // the second portal, rotated 180 degrees on the y and put behind the other portal
+                portals[i] = Instantiate(portalObject, transform.position + transform.forward * -75,
+                    Quaternion.Euler(-x, y + 180f, -z));
 
             portals[i].transform.parent = portalCollection.transform;
 
@@ -85,6 +87,7 @@ public class PortalSpawner : MonoBehaviour
         // link cameras to the portals
         GameMaster.GetComponent<PortalSetUp>().AssignPortalsToCamera();
 
+        //destroys this object, and it's clone
         GetComponent<PortalableObject>().DestroyObject();
     }
 }

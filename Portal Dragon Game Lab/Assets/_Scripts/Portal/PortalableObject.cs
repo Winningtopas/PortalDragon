@@ -8,8 +8,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class PortalableObject : MonoBehaviour
 {
-    private GameObject gameMaster;
-
     private GameObject cloneObject;
 
     private int inPortalCount = 0;
@@ -33,9 +31,6 @@ public class PortalableObject : MonoBehaviour
     [SerializeField]
     private GameObject cloneCameraObject;
 
-    [SerializeField]
-    private GameObject cameraPosition;
-    private GameObject cameraClonePosition;
     private bool hasCamera = false;
 
     private bool fullPortalMovement = false;
@@ -45,53 +40,52 @@ public class PortalableObject : MonoBehaviour
     public Material[] originalMaterials;
     public Material[] cloneMaterials { get; set; }
 
-    private int currentPortalIndex = -1;
-
     protected virtual void Awake()
     {
-        GetComponent<Collider>().enabled = false;
-
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
-
+        collider.enabled = false;
     }
 
     private void Start()
     {
-        gameMaster = GameObject.Find("GameMaster");
-
         cloneObjectContainer = GameObject.Find("Portalable Object Clones");
-        FindChildren(this.gameObject);
+        FindChildren(gameObject);
 
+        // if it's a clone object
         if (gameObject.name.Contains(" clone"))
         {
-            AssignCloneGameObject();
+            // assigns the clone gameobject to the main object, and removes certain components from the clone
+            ManageCloneGameObject();
         }
         else
-        {
-            GetComponent<Collider>().enabled = true;
-            cloneObject = Instantiate(gameObject);
-            cloneObject.name = gameObject.name + " clone";
+        {   // enable the collider, disable all child PortableObject scripts, check if it has a camera
+            ManageOriginalGameObject();
+        }
+    }
 
-            for (int i = 0; i < allChildren.Count; i++)
+    void ManageOriginalGameObject()
+    {
+        GetComponent<Collider>().enabled = true;
+
+        //make a clone
+        cloneObject = Instantiate(gameObject);
+        cloneObject.name = gameObject.name + " clone";
+
+        for (int i = 0; i < allChildren.Count; i++)
+        {
+            if (allChildren[i].GetComponent<PortalableObject>() != null)
+                allChildren[i].GetComponent<PortalableObject>().enabled = false;
+
+            if (allChildren[i].GetComponent<Camera>() != null)
             {
-                Destroy(allChildren[i].GetComponent<PortalableObject>());
-                Destroy(allChildren[i].GetComponent<Collider>());
-                Destroy(allChildren[i].GetComponent<AudioListener>());
-                if (allChildren[i].GetComponent<Camera>() != null)
-                {
-                    ownCameraObject = allChildren[i];
-                    hasCamera = true;
-                }
-                if (allChildren[i].name == "CameraPosition")
-                {
-                    cameraPosition = allChildren[i];
-                }
+                ownCameraObject = allChildren[i];
+                hasCamera = true;
             }
         }
     }
 
-    void AssignCloneGameObject()
+    void ManageCloneGameObject()
     {
         transform.parent = cloneObjectContainer.transform;
 
@@ -102,17 +96,17 @@ public class PortalableObject : MonoBehaviour
 
         for (int i = 0; i < allChildren.Count; i++)
         {
+            //this is a bit dirty, but necessary otherwise the clone object will break the game
             Destroy(allChildren[i].GetComponent<PortalableObject>());
+            Destroy(allChildren[i].GetComponent<PortalSpawner>());
             Destroy(allChildren[i].GetComponent<Collider>());
+            Destroy(allChildren[i].GetComponent<AudioListener>());
+
+            //send the clone camera to the original object
             if (allChildren[i].GetComponent<Camera>() != null)
             {
                 hasCamera = true;
                 originalGameObject.GetComponent<PortalableObject>().cloneCameraObject = allChildren[i];
-            }
-
-            if (allChildren[i].name == "CameraPosition")
-            {
-                originalGameObject.GetComponent<PortalableObject>().cameraClonePosition = allChildren[i];
             }
         }
 
@@ -130,29 +124,6 @@ public class PortalableObject : MonoBehaviour
             childCount++;
             allChildren.Add(child);
             FindChildren(child);
-
-            var matList = new List<Material>();
-
-            //find the materials so we can slice them later
-            if (child.GetComponent<MeshRenderer>() != null)
-            {
-                MeshRenderer renderer = child.GetComponent<MeshRenderer>();
-                foreach (var mat in renderer.materials)
-                {
-                    matList.Add(mat);
-                }
-            }
-
-            if (child.GetComponent<SkinnedMeshRenderer>() != null)
-            {
-                SkinnedMeshRenderer skinnedRenderer = child.GetComponent<SkinnedMeshRenderer>();
-                foreach (var mat in skinnedRenderer.materials)
-                {
-                    matList.Add(mat);
-                }
-            }
-
-            originalMaterials = matList.ToArray();
         }
     }
 
@@ -200,25 +171,8 @@ public class PortalableObject : MonoBehaviour
             cloneCameraObject.SetActive(true);
             ownCameraObject.SetActive(false);
         }
-        //Debug.Break();
 
         ++inPortalCount;
-    }
-
-    public void SetSliceOffsetDst(float dst, bool clone)
-    {
-        for (int i = 0; i < originalMaterials.Length; i++)
-        {
-            if (clone)
-            {
-                cloneMaterials[i].SetFloat("sliceOffsetDst", dst);
-            }
-            else
-            {
-                originalMaterials[i].SetFloat("sliceOffsetDst", dst);
-            }
-
-        }
     }
 
     public virtual void Warp()
@@ -256,10 +210,10 @@ public class PortalableObject : MonoBehaviour
     public void ExitPortal(Collider wallCollider)
     {
         // remove the parts of the material that shouldnt be visible
-        for (int i = 0; i < originalMaterials.Length; i++)
-        {
-            originalMaterials[i].SetVector("sliceNormal", Vector3.zero);
-        }
+        //for (int i = 0; i < originalMaterials.Length; i++)
+        //{
+        //    originalMaterials[i].SetVector("sliceNormal", Vector3.zero);
+        //}
 
         if (hasCamera)
         {

@@ -321,7 +321,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147937832706}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50ce6fbf59424184cbac7e91fc25fe71, type: 3}
   m_Name: 
@@ -595,7 +595,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 374689824}
   m_LocalRotation: {x: -0, y: -0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 4.38, z: 1.89}
+  m_LocalPosition: {x: -1.5, y: 9.249999, z: 2.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8634370951279033989}
@@ -1892,7 +1892,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &912242446
 Transform:
   m_ObjectHideFlags: 0
@@ -9531,7 +9531,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147937832706}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 23.5, y: -29.25, z: -13.2}
+  m_LocalPosition: {x: 23.5, y: 16.5, z: -13.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3488151671382395383}
@@ -9664,14 +9664,29 @@ GameObject:
   - component: {fileID: 144087929}
   - component: {fileID: 144087930}
   - component: {fileID: 919132147937832707}
+  - component: {fileID: 919132147937832708}
   m_Layer: 0
   m_Name: Rayquaza
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &919132147937832707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132147937832706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d4c87500738df4ba82f7bc4b7ba119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSpeed: 0
+  walkingSpeed: 15
+--- !u!114 &919132147937832708
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9680,11 +9695,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 919132147937832706}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72d4c87500738df4ba82f7bc4b7ba119, type: 3}
+  m_Script: {fileID: 11500000, guid: e96f5050f977c9a4d9ea4b45acf94a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSpeed: 0
-  walkingSpeed: 15
+  rotationSpeedX: 0
+  rotationSpeedY: 0
+  rotationSpeedZ: 50
 --- !u!1001 &962175860454865709
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9803,13 +9819,13 @@ Rigidbody:
   m_GameObject: {fileID: 8634370951279033994}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.1
+  m_Drag: 0.2
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!4 &1302749094158068544
 Transform:
   m_ObjectHideFlags: 0
@@ -26419,7 +26435,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8634370951279033994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.7666, y: 17.517017, z: -1.6577263}
+  m_LocalPosition: {x: 18.0166, y: 11.517017, z: -1.6577263}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8634370951745006130}
@@ -26447,6 +26463,7 @@ GameObject:
   - component: {fileID: 1149108258335330854}
   - component: {fileID: 6946318790915824304}
   - component: {fileID: 8634370951279033995}
+  - component: {fileID: 8634370951279033996}
   m_Layer: 0
   m_Name: Orb
   m_TagString: Untagged
@@ -26467,6 +26484,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.25
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8634370951279033996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8634370951279033994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71260847acddb4241b9422f2655b3dde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &8634370951296228489
 MeshFilter:
   m_ObjectHideFlags: 0

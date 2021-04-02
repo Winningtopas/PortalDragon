@@ -40,6 +40,13 @@ public class PortalableObject : MonoBehaviour
     public Material[] originalMaterials;
     public Material[] cloneMaterials { get; set; }
 
+
+    // rotation camera
+
+    private bool ownCameraIsCorrected;
+    private bool cloneCameraIsCorrected;
+
+
     protected virtual void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -127,6 +134,28 @@ public class PortalableObject : MonoBehaviour
         }
     }
 
+    private void AvoidCameraClippingWhileRotating(Transform inTransform, Transform outTransform)
+    {
+        if (cloneCameraObject.activeSelf && !cloneCameraIsCorrected)
+        {
+            ownCameraIsCorrected = false;
+            // Update rotation of clone camera.
+            Quaternion relativeCamRot = Quaternion.Inverse(inTransform.rotation) * ownCameraObject.transform.rotation;
+            relativeCamRot = halfTurn * relativeCamRot;
+            cloneCameraObject.transform.rotation = outTransform.rotation * relativeCamRot;
+            cloneCameraIsCorrected = true;
+        }
+        if (!cloneCameraObject.activeSelf && !ownCameraIsCorrected)
+        {
+            cloneCameraIsCorrected = false;
+            // Update rotation of clone camera.
+            Quaternion relativeCamRot = Quaternion.Inverse(inTransform.rotation) * cloneCameraObject.transform.rotation;
+            relativeCamRot = halfTurn * relativeCamRot;
+            ownCameraObject.transform.rotation = outTransform.rotation * relativeCamRot;
+            ownCameraIsCorrected = true;
+        }
+    }
+
     private void LateUpdate()
     {
         if (inPortal == null || outPortal == null)
@@ -134,10 +163,18 @@ public class PortalableObject : MonoBehaviour
             return;
         }
 
-        if(cloneObject.activeSelf)
+        var inTransform = inPortal.transform;
+        var outTransform = outPortal.transform;
+
+        if (hasCamera)
         {
-            var inTransform = inPortal.transform;
-            var outTransform = outPortal.transform;
+           AvoidCameraClippingWhileRotating(inTransform, outTransform);
+        }
+
+        if (cloneObject.activeSelf)
+        {
+            //var inTransform = inPortal.transform;
+            //var outTransform = outPortal.transform;
 
             // Update position of clone.
             Vector3 relativePos = inTransform.InverseTransformPoint(transform.position);
@@ -148,6 +185,14 @@ public class PortalableObject : MonoBehaviour
             Quaternion relativeRot = Quaternion.Inverse(inTransform.rotation) * transform.rotation;
             relativeRot = halfTurn * relativeRot;
             cloneObject.transform.rotation = outTransform.rotation * relativeRot;
+
+            //if (hasCamera)
+            //{
+            //    // Update rotation of clone camera.
+            //    Quaternion relativeCamRot = Quaternion.Inverse(inTransform.rotation) * ownCameraObject.transform.rotation;
+            //    relativeCamRot = halfTurn * relativeCamRot;
+            //    cloneCameraObject.transform.rotation = outTransform.rotation * relativeCamRot;
+            //}
         }
         else
         {

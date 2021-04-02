@@ -19,7 +19,10 @@ public class PortalSpawner : MonoBehaviour
     GameObject[] portals = new GameObject[2];
     GameObject[] cameras = new GameObject[2];
 
-    public float lifeTime = 2f;
+    private float lifeTime = 2f;
+    private float rayCastDistance = 10f;
+
+    private int layerMask = 1 << 0;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +35,15 @@ public class PortalSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.DrawRay(transform.position, transform.forward * rayCastDistance, Color.yellow);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, rayCastDistance, layerMask))
+        {
+            OnDeath();
+        }
+
         lifeTime -= Time.deltaTime;
 
         if (lifeTime <= 0.0f)

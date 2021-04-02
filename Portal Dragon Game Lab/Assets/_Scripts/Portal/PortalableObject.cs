@@ -168,7 +168,7 @@ public class PortalableObject : MonoBehaviour
 
         if (hasCamera)
         {
-           AvoidCameraClippingWhileRotating(inTransform, outTransform);
+           //AvoidCameraClippingWhileRotating(inTransform, outTransform);
         }
 
         if (cloneObject.activeSelf)

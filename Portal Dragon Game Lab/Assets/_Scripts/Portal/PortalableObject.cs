@@ -28,8 +28,7 @@ public class PortalableObject : MonoBehaviour
     public GameObject cloneGameObject;
     private GameObject ownCameraObject;
 
-    [SerializeField]
-    private GameObject cloneCameraObject;
+    public GameObject cloneCameraObject;
 
     private bool hasCamera = false;
 
@@ -108,12 +107,16 @@ public class PortalableObject : MonoBehaviour
             Destroy(allChildren[i].GetComponent<PortalSpawner>());
             Destroy(allChildren[i].GetComponent<Collider>());
             Destroy(allChildren[i].GetComponent<AudioListener>());
+            Destroy(allChildren[i].GetComponent<FirstPersonCamera>());
+
 
             //send the clone camera to the original object
             if (allChildren[i].GetComponent<Camera>() != null)
             {
                 hasCamera = true;
                 originalGameObject.GetComponent<PortalableObject>().cloneCameraObject = allChildren[i];
+                if(originalGameObject.GetComponent<PortalableObject>().ownCameraObject.GetComponent<FirstPersonCamera>())
+                    originalGameObject.GetComponent<PortalableObject>().ownCameraObject.GetComponent<FirstPersonCamera>().cloneCamera = allChildren[i];
             }
         }
 
@@ -214,6 +217,7 @@ public class PortalableObject : MonoBehaviour
         if (fullPortalMovement && hasCamera)
         {
             cloneCameraObject.SetActive(true);
+
             ownCameraObject.SetActive(false);
         }
 

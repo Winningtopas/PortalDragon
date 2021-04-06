@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ public class PortalableObject : MonoBehaviour
     private GameObject cloneObject;
 
     private int inPortalCount = 0;
-    
+
     private Portal inPortal;
     private Portal outPortal;
 
@@ -115,7 +115,7 @@ public class PortalableObject : MonoBehaviour
             {
                 hasCamera = true;
                 originalGameObject.GetComponent<PortalableObject>().cloneCameraObject = allChildren[i];
-                if(originalGameObject.GetComponent<PortalableObject>().ownCameraObject.GetComponent<FirstPersonCamera>())
+                if (originalGameObject.GetComponent<PortalableObject>().ownCameraObject.GetComponent<FirstPersonCamera>())
                     originalGameObject.GetComponent<PortalableObject>().ownCameraObject.GetComponent<FirstPersonCamera>().cloneCamera = allChildren[i];
             }
         }
@@ -171,14 +171,11 @@ public class PortalableObject : MonoBehaviour
 
         if (hasCamera)
         {
-           //AvoidCameraClippingWhileRotating(inTransform, outTransform);
+            //AvoidCameraClippingWhileRotating(inTransform, outTransform);
         }
 
         if (cloneObject.activeSelf)
         {
-            //var inTransform = inPortal.transform;
-            //var outTransform = outPortal.transform;
-
             // Update position of clone.
             Vector3 relativePos = inTransform.InverseTransformPoint(transform.position);
             relativePos = halfTurn * relativePos;
@@ -189,13 +186,6 @@ public class PortalableObject : MonoBehaviour
             relativeRot = halfTurn * relativeRot;
             cloneObject.transform.rotation = outTransform.rotation * relativeRot;
 
-            //if (hasCamera)
-            //{
-            //    // Update rotation of clone camera.
-            //    Quaternion relativeCamRot = Quaternion.Inverse(inTransform.rotation) * ownCameraObject.transform.rotation;
-            //    relativeCamRot = halfTurn * relativeCamRot;
-            //    cloneCameraObject.transform.rotation = outTransform.rotation * relativeCamRot;
-            //}
         }
         else
         {
@@ -258,12 +248,6 @@ public class PortalableObject : MonoBehaviour
 
     public void ExitPortal(Collider wallCollider)
     {
-        // remove the parts of the material that shouldnt be visible
-        //for (int i = 0; i < originalMaterials.Length; i++)
-        //{
-        //    originalMaterials[i].SetVector("sliceNormal", Vector3.zero);
-        //}
-
         if (hasCamera)
         {
             ownCameraObject.SetActive(false);

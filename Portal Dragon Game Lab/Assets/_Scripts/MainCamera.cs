@@ -20,23 +20,23 @@ public class MainCamera : MonoBehaviour {
 
     private void Update()
     {
-        portals = GameMaster.GetComponent<PortalSetUp>().portals;
-        cameras = GameMaster.GetComponent<PortalSetUp>().cameras;
+        //portals = GameMaster.GetComponent<PortalSetUp>().portals;
+        //cameras = GameMaster.GetComponent<PortalSetUp>().cameras;
     }
 
-    void OnPreCull () {
-        //for (int i = 0; i < portals.Length; i++) {
-        //    portals[i].PrePortalRender ();
-        //}
-        //for (int i = 0; i < portals.Length; i++) {
-        //    portals[i].Render ();
-        //}
+    //void OnPreCull () {
+    //    //for (int i = 0; i < portals.Length; i++) {
+    //    //    portals[i].PrePortalRender ();
+    //    //}
+    //    //for (int i = 0; i < portals.Length; i++) {
+    //    //    portals[i].Render ();
+    //    //}
 
-        for (int i = 0; i < portals.Count; i++) {
-            //portals[i].GetComponent<Portal>().PostPortalRender();
-            //cameras[i].GetComponent<PortalCamera>().PrePortalRenderer();
-        }
+    //    //for (int i = 0; i < portals.Count; i++) {
+    //        //portals[i].GetComponent<Portal>().PostPortalRender();
+    //        //cameras[i].GetComponent<PortalCamera>().PrePortalRenderer();
+    //    //}
 
-    }
+    //}
 
 }

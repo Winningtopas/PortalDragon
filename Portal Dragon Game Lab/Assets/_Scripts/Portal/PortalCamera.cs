@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using RenderPipeline = UnityEngine.Rendering.RenderPipelineManager;
 
-public class PortalCamera : MonoBehaviour {
+public class PortalCamera : MonoBehaviour
+{
 
     public List<GameObject> portals = new List<GameObject>();
     public List<GameObject> cameras = new List<GameObject>();
@@ -14,7 +15,7 @@ public class PortalCamera : MonoBehaviour {
     private Camera mainCamera;
     private GameObject gameMaster;
 
-    private const int iterations = 7;
+    private const int iterations = 2;
 
     private void Awake()
     {

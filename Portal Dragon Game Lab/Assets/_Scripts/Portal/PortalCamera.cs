@@ -15,7 +15,7 @@ public class PortalCamera : MonoBehaviour
     private Camera mainCamera;
     private GameObject gameMaster;
 
-    private const int iterations = 2;
+    private const int iterations = 7;
 
     private void Awake()
     {

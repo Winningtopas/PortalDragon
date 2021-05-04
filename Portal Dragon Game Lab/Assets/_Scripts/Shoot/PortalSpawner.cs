@@ -35,8 +35,6 @@ public class PortalSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.DrawRay(transform.position, transform.forward * rayCastDistance, Color.yellow);
-
         RaycastHit hit;
 
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, rayCastDistance, layerMask))

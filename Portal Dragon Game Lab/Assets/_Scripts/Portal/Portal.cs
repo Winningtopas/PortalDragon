@@ -18,7 +18,7 @@ public class Portal : MonoBehaviour
     private List<PortalableObject> portalObjects = new List<PortalableObject>();
 
     [SerializeField]
-    private Collider wallCollider;
+    public Collider wallCollider;
 
     [SerializeField]
     Vector3 testPosition;
@@ -42,9 +42,15 @@ public class Portal : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Main Camera").transform;
-        wallCollider = otherPortal.GetComponent<Collider>();
-
-        ScalePortal();
+        if (otherPortal)
+        {
+            wallCollider = otherPortal.GetComponent<Collider>();
+            ScalePortal();
+        }
+        else
+        {
+            InActivePortal();
+        }
     }
 
     private void ScalePortal()
@@ -61,6 +67,11 @@ public class Portal : MonoBehaviour
         transform.localScale = transform.localScale / scaleAmount;
 
         StartCoroutine(ScaleOverTime(scaleSpeed));
+    }
+
+    private void InActivePortal()
+    {
+
     }
 
     // Update is called once per frame

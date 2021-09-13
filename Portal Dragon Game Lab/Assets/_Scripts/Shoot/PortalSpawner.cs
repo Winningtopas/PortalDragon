@@ -16,8 +16,10 @@ public class PortalSpawner : MonoBehaviour
     [SerializeField]
     private GameObject portalCameras;
 
-    GameObject[] portals = new GameObject[2];
-    GameObject[] cameras = new GameObject[2];
+    public int amountOfPortals = 2;
+
+    GameObject[] portals;
+    GameObject[] cameras;
 
     private float lifeTime = 2f;
     private float rayCastDistance = 10f;
@@ -27,6 +29,9 @@ public class PortalSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        portals = new GameObject[amountOfPortals];
+        cameras = new GameObject[amountOfPortals];
+
         GameMaster = GameObject.Find("GameMaster");
         portalCollection = GameObject.Find("Portal Collection");
         portalCameras = GameObject.Find("Portal Cameras");
@@ -65,11 +70,22 @@ public class PortalSpawner : MonoBehaviour
     void OnDeath()
     {
         //make the cameras
+        if(amountOfPortals == 1)
+        Debug.Log("Death");
+
         for (int i = 0; i < portals.Length; i++)
         {
             cameras[i] = Instantiate(cameraObject, new Vector3(transform.position.x + 10 * i, transform.position.y, transform.position.z),
                 Quaternion.identity);
-            GameMaster.GetComponent<PortalSetUp>().MakeNewRenderTexture(cameras[i]);
+
+            if(amountOfPortals == 1)
+            {
+                GameMaster.GetComponent<PortalSetUp>().MakeNewMultiRenderTexture(cameras[i]);
+            }
+            else
+            {
+                GameMaster.GetComponent<PortalSetUp>().MakeNewRenderTexture(cameras[i]);
+            }
             cameras[i].transform.parent = portalCameras.transform;
         }
 
@@ -81,6 +97,7 @@ public class PortalSpawner : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(x, y, z);
 
         //make the portals
+
         for (int i = 0; i < portals.Length; i++)
         {
             if(i == 0) //the first portal
@@ -91,13 +108,31 @@ public class PortalSpawner : MonoBehaviour
 
             portals[i].transform.parent = portalCollection.transform;
 
-            GameMaster.GetComponent<PortalSetUp>().AssignMaterialToPortal(portals[i], i);
+
+            if (amountOfPortals == 1)
+            {
+                GameMaster.GetComponent<PortalSetUp>().AssignMultiMaterialToPortal(portals[i], i);
+            }
+            else
+            {
+                GameMaster.GetComponent<PortalSetUp>().AssignMaterialToPortal(portals[i], i);
+            }
         }
 
-        // link cameras to the portals
-        GameMaster.GetComponent<PortalSetUp>().AssignPortalsToCamera();
+        //link cameras to the portals
+        if (amountOfPortals == 1)
+        {
+            GameMaster.GetComponent<PortalSetUp>().AssignMultiPortalsToCamera();
+        }
+        else
+        {
+            GameMaster.GetComponent<PortalSetUp>().AssignPortalsToCamera();
+        }
+        //Debug.Log("5");
 
         //destroys this object, and it's clone
         GetComponent<PortalableObject>().DestroyObject();
+        Debug.Log("2");
+
     }
 }

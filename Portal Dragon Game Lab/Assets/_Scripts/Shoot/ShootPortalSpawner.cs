@@ -12,6 +12,10 @@ public class ShootPortalSpawner : MonoBehaviour
     [SerializeField]
     private bool shoot = false;
 
+    [SerializeField]
+    [Range(1, 2)]
+    private int amountOfPortals = 2;
+
     private void Start()
     {
         FindParent(gameObject);
@@ -47,6 +51,7 @@ public class ShootPortalSpawner : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(x, y, z);
         currentPortalSpawner = Instantiate(portalSpawner, position, rotation);
         currentPortalSpawner.name = "PortalSpawner";
+        currentPortalSpawner.GetComponent<PortalSpawner>().amountOfPortals = amountOfPortals;
     }
 
     void FindParent(GameObject currentObject)
